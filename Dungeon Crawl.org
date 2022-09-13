@@ -1,0 +1,224 @@
+:PROPERTIES:
+:ID:       6E195621-5E50-412E-BA46-24AF82552F8B
+:END:
+#+title: Dungeon Crawl
+* Simplified Formula
+** Hitting
+5% of the time, a hit or miss will occur regardless of to-hit or EV.
+
+EV is doubled, rolled twice, and averaged. To-hit is rolled.
+
+If to-hit is higher than EV, the attack hits.
+
+Thus, EV tends to be smaller than to-hit, and a point of EV is more effective than a point of to-hit.
+*** Player attacks Monster
+**** Player to-hit
+Sum of the following:
+
++ Base value of 15
++ Dexterity / 2 (exact)
++ Fighting skill / 2 (rolled)
++ Relevant weapon skill / 2 (rolled)
++ Weapon base accuracy
++ Weapon enchantment level
++ Slaying bonuses
++ Other modifiers
+**** Monster Evasion (EV)
+Monster EV is basic value based on the monster type.
+
+Orc EVs are around 10; exact value depends on type.
+*** Monster attacks Player
+**** Monster to-hit
+Sum of the following:
+
++ Base value of 18
++ Monster HD * 1.5 (or 2.5 if monster is tagged Fighter)
++ Other modifiers
+**** Player Evasion (EV)
+Sum of the following:
+
++ Base value of 10
++ Size factor (large players are easier to hit)
++ Roughly: Dodging * Dexterity * (1 - (Encumbrance / Str) || Str / Encumbrance ; not to exceed 1)
++ Roughly subtracts: (Encumbrance^2 - Armour Skill) / Str
++ Roughly subtracts: Shield Encumbrance - Shield Skill
++ Other modifiers
+
+"Roughly" means I've left out scaling factors. Fortunately, the game calculates EV for us and shows us the result.
+
+The important thing is the relation between the factors, such as:
++ Dodging and Dexterity multiply.
++ Str and Amour Skill help with Encumbrance.
++ Encumbrance is squared at one point.
+
+This is one of the most complicated formulas in the game.
+** Damage
+Damage is rolled and AC is rolled. Rolled damage is reduced by rolled AC.
+
+Rolled AC also reduces magic damage.
+*** Player attacks Monster
+**** Player damage
+Product of the following:
+
+ * Weapon base damage
+ * 0.75 + 0.025 * Stat (equals 1.0 at Stat 10)
+ * 1 + Weapon Skill / 25
+ * 1 + Fighting Skill / 30
+
+Plus bonuses:
++ Might or Berserk: +1d10 (1 to 10)
++ Weapon enchantment level
++ Slaying bonuses
++ Other bonuses
+
+Finally:
++ Stabbing bonus multipliers
++ Axes (and other cleaving attacks) are multiplied by 0.7.
+**** Monster AC
+Monster AC is basic value based on the monster type.
+
+Unarmoured Orcs have an AC around 2; exact value depends on type.
+Armoured Orcs have an AC around 10; exact value depends on type.
+*** Monster attacks Player
+**** Monster damage
+Monsters have defined attack damage and sometimes random weapons.
+**** Player AC
+Mostly comes from worn armour. The game is pretty clear about AC effects.
+
+Armour enhancement level adds to AC.
+
+AC has a guaranteed melee damage reduction (GDR). GDR follows a root scale.
+
+GDR reduces melee damage AC^(1/4) * 16 percent, with a max of AC / 2 reduction.
+** Weapon Speed
+Weapon speed may be reduced by the relevant weapon skill. The game is clear about these numbers in weapon descriptions.
+** Weapon Stat
+Most weapons scale with Str. Blades and ranged scale with Dex.
+** Shields
+SH is similar to EV.
+
+SH is compared against to-hit similar to EV and to-hit.
+
+SH is improved by Block Skill and Dexterity.
+* Items
+** Armour
+| Armour               | Base AC | Encumbrance |
+|----------------------+---------+-------------|
+| Animal Skin / Robe   |       2 |           0 |
+| Leather Armour       |       3 |           4 |
+| [Light] Ring Mail    |       5 |           7 |
+| [Light] Scale Mail   |       6 |          10 |
+| [Heavy] Chain Mail   |       8 |          15 |
+| [Heavy] Plate Armour |      10 |          18 |
+| Crystal Plate Armour |      14 |          23 |
+** Weapons
+*** Short Blades
+**** Common
+- Dagger
+- Short Sword
+- Rapier
+**** Special
+- Quick Blade
+*** Long Blade
+**** Common
+- Falchion
+- Long Sword
+- Scimitar
+- Great Sword
+**** Special
+- Demon / Eudemon Blade
+- Double / Triple Sword
+*** Axes
+**** Common
+- Hand Axe
+- War Axe
+- Broad Axe
+- Battleaxe
+**** Special
+- Executioner's Axe
+*** Maces & Flails
+**** Junk (for monsters to carry)
+- Club
+- Whip
+**** Common
+- Mace
+- Flail
+- Morningstar
+- Dire Flail
+**** Special
+- Demon / Sacred Whip
+- Eveningstar
+**** Great
+- Great Mace
+- Great Club
+- Great Spiked Club
+*** Polearms
+**** Common
+- Spear
+- Trident
+- Halberd
+- Glaive
+**** Special
+- Demon / Trishula Trident
+- Bardiche
+*** Staves
+**** Common
+- Quarterstaff
+- Lajatang
+**** Special
+- Magic Staffs
+* Hit Damage
+The number of exclamation marks indicate the damage done:
+
+| Number of ! | Min Damage |
+|-------------+------------|
+|           1 |          7 |
+|           2 |         18 |
+|           3 |         36 |
+|           4 |         72 |
+|           5 |        144 |
+|           6 |        288 |
+|           7 |        576 |
+|           8 |       1152 |
+|           9 |       2304 |
+|          10 |       4608 |
+
+Middle of ranges:
+
+| Number of ! | Approx. Damage |
+|-------------+----------------|
+|           0 |              3 |
+|           1 |             12 |
+|           2 |             25 |
+|           3 |             50 |
+|           4 |            100 |
+|           5 |            200 |
+|           6 |            400 |
+|           7 |            800 |
+|           8 |           1600 |
+|           9 |           3200 |
+* Config
+#+begin_src
+include = safe_move_shift.txt
+show_more = false
+dump_message_count = 1000
+tile_tag_pref = tutorial
+
+explore_stop  = glowing_items,stairs,altars,portals,branches,runed_doors
+explore_stop += greedy_pickup_smart,greedy_visited_item_stack
+
+autopickup = $?!+"/(}
+autopickup_exceptions ^= <tin of tremorstones
+autopickup_exceptions ^= <spellbook
+
+force_more_message += Your .+ skill .+ level
+force_more_message += raining target .+ reached
+
+force_more_message += cacodemon
+force_more_message += neqoxec
+force_more_message += orb of fire
+force_more_message += shining eye
+
+force_more_message += You hear the .+ of .*(distant|nearby)
+force_more_message += The walls and floor vibrate strangely for a moment
+#+end_src
