@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       F03A1ECC-D65F-49AB-A33F-BFFDAB79BD68
+:END:
+#+title: Racket
+A programming language.
+* Install
+** MacOS
+To install racket and racket-mode requirements from the shell:
+#+begin_src shell
+  brew install racket
+  raco pkg install --auto drracket
+#+end_src
