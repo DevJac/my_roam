@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       FE512114-81F3-4B7F-9BC4-476DC4D5B940
+:END:
+#+title: Model-View-Controller Design Pattern
+A design pattern for software. Also known as "MVC".
+* Model
+A data structure (not code) that represents the state of the program.
+* View
+Code that renders the state of the program (the model).
+
+More generally, the view might also perform timed-based actions based on the state. For example, rendering might involve drawing a GUI every frame, a time based action.
+* Controller
+Code that handles events from the world, such a mouse clicks or web requests. The controller updates the model.
+
+In some formulations of MVC the controller sits between the model and view, thus decoupling the model and view.

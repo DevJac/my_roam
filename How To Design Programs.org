@@ -10,4 +10,4 @@ Uses the [[id:F03A1ECC-D65F-49AB-A33F-BFFDAB79BD68][Racket]] programming languag
 <2022-09-17> Finished Prologue
 <2022-09-17> Finished Chapter 1
 <2022-09-19> Finished Chapter 2
-<2022-09-19> Finished Section 3.5
+<2022-09-20> Finished Chapter 3
