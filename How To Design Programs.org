@@ -1,0 +1,13 @@
+:PROPERTIES:
+:ID:       C00F2B83-B45E-40EE-B705-E61109319369
+:END:
+#+title: How To Design Programs
+A programming course at https://htdp.org/.
+
+Uses the [[id:F03A1ECC-D65F-49AB-A33F-BFFDAB79BD68][Racket]] programming language.
+* Reading Log
+<2022-09-17> Finished Preface
+<2022-09-17> Finished Prologue
+<2022-09-17> Finished Chapter 1
+<2022-09-19> Finished Chapter 2
+<2022-09-19> Finished Section 3.5
