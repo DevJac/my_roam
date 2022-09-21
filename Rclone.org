@@ -1,0 +1,25 @@
+:PROPERTIES:
+:ID:       74C1E6C4-332A-41D1-B9D0-C43116E51377
+:END:
+#+title: Rclone
+Rclone is a command-line program to manage files on cloud storage.
+
+https://rclone.org/
+* B2 Setup
+** Log into Blackblaze website
+Log into Blackblaze website and review App Keys.
+** Install b2-tools
+On MacOS: =brew install b2-tools=
+** Use b2-tools to create a write-only application key
+#+begin_src shell
+  b2 authorize-account
+  b2 create-key KeyName 'listBuckets, listFiles, listKeys, readFiles, writeBuckets, writeFiles, writeKeys'
+#+end_src
+** Config rclone with newly created key
+Configure the ~b2~ remote with =rclone config=, name the remote "backup".
+** Generate a new Blackblaze master key
+Generate a new Blackblaze master key. This will ensure no tool can access the master account.
+** Remove b2-tools config / account info
+Delete the ~~/.b2_account_info~ file.
+** Install and run my syncup script
+Place my ~syncup~ script on the ~PATH~ and run it.

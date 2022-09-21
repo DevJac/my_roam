@@ -5,9 +5,34 @@
 A programming course at https://htdp.org/.
 
 Uses the [[id:F03A1ECC-D65F-49AB-A33F-BFFDAB79BD68][Racket]] programming language.
+* Design Methodology
+** 1. From Problem Analysis to Data Definitions
+Identify the information that must be represented and how it is represented in the chosen programming language. Formulate data definitions and illustrate them with examples.
+** 2. Signature, Purpose Statement, Header
+State what kind of data the desired function consumes and produces. Formulate a concise answer to the question what the function computes. Define a stub that lives up to the signature.
+** 3. Functional Examples
+Work through examples that illustrate the function’s purpose.
+** 4. Function Template
+Translate the data definitions into an outline of the function.
+** 5. Function Definition
+Fill in the gaps in the function template. Exploit the purpose statement and the examples.
+** 6. Testing
+Articulate the examples as tests and ensure that the function passes all. Doing so discovers mistakes. Tests also supplement examples in that they help others read and understand the definition when the need arises—and it will arise for any serious program.
+* Program Recipes (Batch vs Interactive)
+Programs are either "batch" or "interactive" programs.
+
+Batch programs consume one specific input, and produce a specific output, and are usually short lived. For example, a compiler.
+
+Interactive programs are long lived and focus on responding to events, such as user input, or network activity. For example, an app or a web application.
 * Reading Log
 <2022-09-17> Finished Preface
 <2022-09-17> Finished Prologue
 <2022-09-17> Finished Chapter 1
 <2022-09-19> Finished Chapter 2
 <2022-09-20> Finished Chapter 3
+
+<2022-09-20>
+Skimmed many chapters, through section 2. I don't think there's a lot for me to learn in the early sections.
+
+<2022-09-20>
+Skimmed intermezzo 2, learned about quoting and researched quoting and macros in [[id:F03A1ECC-D65F-49AB-A33F-BFFDAB79BD68][Racket]].
