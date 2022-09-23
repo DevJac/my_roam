@@ -24,6 +24,8 @@ Programs are either "batch" or "interactive" programs.
 Batch programs consume one specific input, and produce a specific output, and are usually short lived. For example, a compiler.
 
 Interactive programs are long lived and focus on responding to events, such as user input, or network activity. For example, an app or a web application.
+* Videos
+There are some videos of Gregor Kiczales teaching this course at [[https://www.youtube.com/channel/UC7dEjIUwSxSNcW4PqNRQW8w][the "Systematic Program Design" YouTube channel]].
 * Reading Log
 <2022-09-17> Finished Preface
 <2022-09-17> Finished Prologue
@@ -36,3 +38,6 @@ Skimmed many chapters, through section 2. I don't think there's a lot for me to 
 
 <2022-09-20>
 Skimmed intermezzo 2, learned about quoting and researched quoting and macros in [[id:F03A1ECC-D65F-49AB-A33F-BFFDAB79BD68][Racket]].
+
+<2022-09-22>
+I'm not enjoying this book and am taking a break. SICP covers the same material and is more interesting for experienced programmers.

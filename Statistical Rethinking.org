@@ -1,0 +1,9 @@
+:PROPERTIES:
+:ID:       1DC511BA-9882-4078-A576-CBE7A2B4565E
+:END:
+#+title: Statistical Rethinking
+Statistical Rethinking: A Bayesian Course with Examples in R and Stan
+by Richard McElreath
+
+https://xcelab.net/rm/statistical-rethinking/
+* Reading Log

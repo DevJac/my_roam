@@ -202,10 +202,8 @@ Middle of ranges:
 include = safe_move_shift.txt
 show_more = false
 dump_message_count = 1000
-tile_tag_pref = tutorial
 
-explore_stop  = glowing_items,stairs,altars,portals,branches,runed_doors
-explore_stop += greedy_pickup_smart,greedy_visited_item_stack
+explore_stop  = items,altars,portals,branches,runed_doors,greedy_pickup_smart
 
 autopickup = $?!+"/(}
 autopickup_exceptions ^= <tin of tremorstones

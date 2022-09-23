@@ -3,6 +3,9 @@
 :END:
 #+title: Racket
 A programming language.
+* Learning Resources
+** Official Guide
+[[https://docs.racket-lang.org][The official docs]] and especially [[https://docs.racket-lang.org/guide/][the official guide]] appear to be the best starting points for me to learn the Racket language.
 * Install
 ** MacOS
 To install racket and racket-mode requirements from the shell:
