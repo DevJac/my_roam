@@ -6,4 +6,20 @@ Statistical Rethinking: A Bayesian Course with Examples in R and Stan
 by Richard McElreath
 
 https://xcelab.net/rm/statistical-rethinking/
+* Why normal?
+Summed sample from distributions tend toward the normal distribution.
 * Reading Log
+** <2022-09-24> Watched Lecture 1
+Gave course overview. Golums, Owls, and Dags.
+** <2022-10-08> Watched Lecture 2
+How much of the earth is covered in water?
+
+Blue marbles and white marbles example.
+
+1. State a causal model for how the observations arise
+2. Count the ways data could arise for each explanation
+3. Normalize to get relative plausibility
+** <2022-10-09> Watched Lecture 3
+Why normal? Summed samples from distributions tend toward the normal distribution.
+
+Height / weight example. Fitting a linear model.
