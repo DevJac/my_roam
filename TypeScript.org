@@ -1,0 +1,27 @@
+:PROPERTIES:
+:ID:       B59E3CF2-4697-4D6D-BCE7-6C48D48BFD11
+:END:
+#+title: TypeScript
+* TypeScript
+** Modules
+In JavaScript and TypeScript, a file is considered to be a module if it contains a top-level import or export. Modules have their own namespace.
+
+Files without a top-level import or export are not modules and share a single global namespace.
+
+You can make a file into a module by including ~export {};~ if nothing else.
+** Truthy Values
+All values in JavaScript / TypeScript are truthy except for the following:
+- ~false~
+- ~""~ (empty string)
+- ~0~
+- ~NaN~
+- ~null~
+- ~undefined~
+
+and also ~document.all~ is falsey, a weird edge case.
+* Reading
+** Learning TypeScript
+https://www.oreilly.com/library/view/learning-typescript/9781098110321/
+<2022-12-15 Thu 11:17> Finished reading Learning TypeScript.
+** An introduction to type programming in TypeScript
+https://www.zhenghao.io/posts/type-programming
