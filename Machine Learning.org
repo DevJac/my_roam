@@ -1,0 +1,9 @@
+:PROPERTIES:
+:ID:       0616F331-DF71-43E7-B04F-CC687166D72F
+:END:
+#+title: Machine Learning
+* Resources
+** Notebooks from University of Amsterdam's Deep Learning MSc Course
+https://uvadlc-notebooks.readthedocs.io/en/latest/index.html
+
+Chapter 6 covers transformers.
