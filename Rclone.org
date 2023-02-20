@@ -9,14 +9,14 @@ https://rclone.org/
 ** Log into Blackblaze website
 Log into Blackblaze website and review App Keys.
 ** Install b2-tools
-On MacOS: =brew install b2-tools=
+On MacOS: ~brew install b2-tools~
 ** Use b2-tools to create a write-only application key
 #+begin_src shell
   b2 authorize-account
   b2 create-key KeyName 'listBuckets, listFiles, listKeys, readFiles, writeBuckets, writeFiles, writeKeys'
 #+end_src
 ** Config rclone with newly created key
-Configure the ~b2~ remote with =rclone config=, name the remote "backup".
+Configure the ~b2~ remote with ~rclone config~, name the remote "backup".
 ** Generate a new Blackblaze master key
 Generate a new Blackblaze master key. This will ensure no tool can access the master account.
 ** Remove b2-tools config / account info

@@ -1,6 +1,0 @@
-:PROPERTIES:
-:ID:       3EB15666-500C-455E-A32D-67747CA92472
-:END:
-#+title: JavaScript
-* Resources
-https://exploringjs.com/index.html

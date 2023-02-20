@@ -13,7 +13,7 @@ To install racket and racket-mode requirements from the shell:
   brew install racket
   raco pkg install --auto drracket
 #+end_src
-To run DrRacket, start the racket REPL with =racket= and then enter =(require drracket)=.
+To run DrRacket, start the racket REPL with ~racket~ and then enter ~(require drracket)~.
 * racket-mode Tips
 ** errortrace
-Run code using the =racket-run-with-errortrace= command to enable tracebacks in error messages.
+Run code using the ~racket-run-with-errortrace~ command to enable tracebacks in error messages.
