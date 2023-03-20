@@ -1,0 +1,18 @@
+:PROPERTIES:
+:ID:       78ac0068-ca70-4eda-9e1e-61cdb7712587
+:END:
+#+title: asdf
+* Basic
+#+begin_src shell
+  asdf help
+  asdf plugin list
+  asdf plugin list all
+  asdf plugin add <lang-plugin>
+  asdf plugin list
+  asdf list
+  asdf list all <lang-plugin>
+  asdf install <lang-plugin> <version>
+  asdf list
+#+end_src
+* Where does it store things?
+asdf appears to store everything in ~~/.asdf~ and ~~/.tool-versions~.

@@ -1,0 +1,28 @@
+:PROPERTIES:
+:ID:       c65f46a4-1e9f-4c3d-bad3-b28a4a5de0b9
+:END:
+#+title: Compression Tools
+* XZ Compression
+#+begin_src shell
+  du -sh someDirectory/
+  tar c someDirectory/ | xz -9e --verbose > someDirectory.tar.xz
+  tar xvf someDirectory.tar.xz
+#+end_src
+
+See also:
+#+begin_src shell
+  man du
+  man tar
+  man xz
+#+end_src
+* Lzip Compression
+To compress a directory named ~someDirectory/~ do the following:
+#+begin_src shell
+  tar c someDirectory/ | pv -s (du -sb someDirectory/ | awk '{print $1}') | lzip --best > someDirectory.tar.lz
+#+end_src
+
+~tar~ puts the raw file contents onto stdout.
+~pv~ monitors progress, and must be told the total size of the folder being compressed.
+~lzip~ compresses stdout.
+
+The standard ~tar xvf someDirectory.tar.lz~ will decompress the file.
