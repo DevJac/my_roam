@@ -1,0 +1,19 @@
+:PROPERTIES:
+:ID:       a3cc7712-50dd-4ed6-99f4-c36bd4052ecf
+:END:
+#+title: Neural Networks Zero to Hero
+* Video 1: The spelled-out intro to neural networks and backpropagation: building micrograd
+** Autograd
+The first half of this video demonstrates a simple autograd implementation.
+** Components of Machine Learning Algorithms
+*** Arguments
+The real world data you're training on. These are one of the inputs to the neural network.
+*** Parameters
+The other inputs to the neural network. These are what we are trying to learn. Adjusting the parameters to minimize loss /is/ learning.
+*** Neural Network
+Arguments and parameters are input into the neural network and a prediction is made. The loss function evaluates how good the prediction is. A backwards pass through the loss function and neural network gives us the gradients of the parameters, which we can use to optimize the neural network and minimize the loss.
+*** Loss Function
+A function that evaluates how good the neural network's prediction is.
+* Study Log
+<2023-03-20 Mon> Video 1: 0:40
+<2023-03-22 Wed> Video 1: Finished
