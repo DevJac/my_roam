@@ -14,6 +14,40 @@ The other inputs to the neural network. These are what we are trying to learn. A
 Arguments and parameters are input into the neural network and a prediction is made. The loss function evaluates how good the prediction is. A backwards pass through the loss function and neural network gives us the gradients of the parameters, which we can use to optimize the neural network and minimize the loss.
 *** Loss Function
 A function that evaluates how good the neural network's prediction is.
+* Video 2: The spelled-out intro to language models: building makemore
+** PyTorch Broadcasting Semantics
+I will represent tensor dimensions using tuples in the following explanation:
+
+#+begin_src
+  # When two tensors of different size are multiplied
+
+  (3, 7, 1)
+  (7, 5)
+
+  #  First, right align the dimensions:
+
+  (3, 7, 1)
+     (7, 5)
+
+  # Second, left fill the lower rank tensor with dimensions of 1:
+
+  (3, 7, 1)
+  (1, 7, 5)
+
+  # Each dimension must either match, or one of the dimensions must be 1.
+  # After performing the operation, the result will be the larger of the dimensions:
+
+  (3, 7, 1)
+  (1, 7, 5)
+  ---------
+  (3, 7, 5)
+
+  # The result is (3, 7, 5)
+#+end_src
+
+See: https://pytorch.org/docs/stable/notes/broadcasting.html
+** Logits
+Logits is an overloaded term. In machine learning, it often refers to the inputs to a softmax layer. The softmax layer exponentiates the inputs and normalizes them. Exponentiating the inputs makes them positive, and normalizing them makes them into a probability distribution.
 * Study Log
-<2023-03-20 Mon> Video 1: 0:40
 <2023-03-22 Wed> Video 1: Finished
+<2023-03-24 Fri> Video 2: Finished
