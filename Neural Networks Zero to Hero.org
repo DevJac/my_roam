@@ -5,26 +5,26 @@
 * Video 1: The spelled-out intro to neural networks and backpropagation: building micrograd
 ** Autograd
 The first half of this video demonstrates a simple autograd implementation.
-** Components of Machine Learning Algorithms
+** Components of neural network training
 *** Arguments
 The real world data you're training on. These are one of the inputs to the neural network.
 *** Parameters
 The other inputs to the neural network. These are what we are trying to learn. Adjusting the parameters to minimize loss /is/ learning.
-*** Neural Network
+*** Neural network
 Arguments and parameters are input into the neural network and a prediction is made. The loss function evaluates how good the prediction is. A backwards pass through the loss function and neural network gives us the gradients of the parameters, which we can use to optimize the neural network and minimize the loss.
-*** Loss Function
+*** Loss function
 A function that evaluates how good the neural network's prediction is.
 * Video 2: The spelled-out intro to language models: building makemore
-** PyTorch Broadcasting Semantics
+** PyTorch broadcasting semantics
 I will represent tensor dimensions using tuples in the following explanation:
 
 #+begin_src
-  # When two tensors of different size are multiplied
+  # When two tensors of different size are multiplied:
 
   (3, 7, 1)
   (7, 5)
 
-  #  First, right align the dimensions:
+  # First, right align the dimensions:
 
   (3, 7, 1)
      (7, 5)
@@ -48,6 +48,82 @@ I will represent tensor dimensions using tuples in the following explanation:
 See: https://pytorch.org/docs/stable/notes/broadcasting.html
 ** Logits
 Logits is an overloaded term. In machine learning, it often refers to the inputs to a softmax layer. The softmax layer exponentiates the inputs and normalizes them. Exponentiating the inputs makes them positive, and normalizing them makes them into a probability distribution.
+** Using logs for very large and very small numbers
+Remember the log rules:
+
+$$ \log_b(n \cdot m) = \log_b(n) + \log_b(m) $$
+
+$$ \log_b \left( \frac{n}{m} \right) = \log_b(n) - \log_b(m) $$
+
+When having to multiply or divide many numbers, numbers can become very large or very small. Computers don't handle this well, so we can instead convert the values to log values and add the values. Converting to log values, adding the values, and then converting back to a regular value, is equivalent to multiplying all the values in the first place.
+
+For example, if we have to multiply 10,000 probabilities, then that number will be very small. Instead, convert the probabilities to log probabilities, add them, and then convert back from log probabilities to a regular probability. This will be equivalent to simply multiplying all the probabilities, but will avoid the problems from very small numbers.
+** Loss function of language model
+The loss function, which evaluates how good the model is, measure the /log-likelihood/ of the training data.
+
+The model is given the previous items of a sequence, and then predicts the next item in the sequence, and a good model will assign high probability to the next item which actually occured in the training data.
+
+For example, let's say we are training a name generating model. We have trained the model on the name "Bob". When we tell the model "the first two letters are B and O", we expect that the model will return a high probability that the next letter is B. This would mean that the model has learned to make predictions that match the input data.
+* Video 3: Building makemore Part 2: MLP
+** Padding with one-hots
+Padding works well with neural networks, especially with one-hot encoding. In more complex cases, include a boolean input that indicates whether or not the value is present.
+** Python has an @ operator
+Python 3.5+ has an @ operator that is used for matrix multiplication.
+** torch.unbind
+~torch.unbind~ will return a list of tensors from a given dimension.
+** Tensor views
+Tensors have views. Multiple views may point to the same underlying data. Each view may present the underlying data differently; as a different shape for example. If the underlying data is changed, then all views also change.
+
+See: https://pytorch.org/docs/stable/tensor_view.html
+** Steps to train a model
+First, create the model. Initialize the parameters randomly as needed. Proceed using the random parameters, they are good enough to product an output.
+
+After we have an output from the model, evaluate the output using the loss function.
+
+Once we have the loss, perform backpropagation and optimize the parameters.
+* Video 4: Building makemore Part 3: Activations & Gradients, BatchNorm
+** Dead neuron
+A dead neuron outputs the same thing for all possible inputs. Dead neurons can be caused by bad parameter initialization, or by a learning rate that is too large.
+
+A neuron becomes dead due to flat portions of the space/graph in the forward pass. The gradient is thus zero, because small changes either way make no difference. Because the gradient is zero, the associated parameters are never updated.
+** Parameter initialization
+Parameter initialization can be important. Bad parameter initialization can lead to dead neurons, and the network might never recover from these dead neurons.
+** Batch normalization
+Batch normalization was invented in 2015 by Google. It forces activations to be normal before running the activation function. It makes the output of the neural network a function of the entire batch rather than the individual rows.
+*** Use bias=False in PyTorch
+A BatchNorm layer has its own bias, which means that the Linear layer does not need a bias; so use ~torch.Linear(..., bias=False)~
+** Idea: activation regularization
+Batch normalization is forceful, it forces the batch activations to be normal. What if instead we used a loss penalty to perform regularization on the pre-activations and encourage them to be around 0?
+** Log lots of things
+Log forward pass activations, log gradients, etc.
+
+It's especially useful to log the gradient to weight ratio, or better yet, the update to weight ratio. We usually want to be applying updates that are about 1 / 1,000th (one one-thousandth) of the weight.
+* Video 5: Building makemore Part 4: Becoming a Backprop Ninja
+** Chain rule
+If $$ h(x) = f(g(x)) $$ then:
+
+$$ h'(x) = f'(g(x)) \cdot g'(x) $$
+
+Using another syntax, the derivative of $$ x \rhd \textnormal{first} \rhd \textnormal{second} $$ is:
+
+$$ x \rhd \textnormal{first} \rhd \textnormal{second}' \cdot x \rhd \textnormal{first}' $$
+
+With neural networks, we are not looking for an abstract derivative, we want a concrete derivative at $$ x $$.
+
+After the forward pass, we have concrete values for $$ x $$, $$ x \rhd \textnormal{first} $$, and $$ x \rhd \textnormal{first} \rhd \textnormal{second} $$.
+
+We want the gradient with respect to the output of $$ \textnormal{second} $$, and right away we can calculate a concrete value for $$ x \rhd \textnormal{first} \rhd \textnormal{second}' $$, because we know the concrete value of $$ x \rhd \textnormal{first} $$ and the analytical form of $$ \textnormal{second}' $$.
+
+Thus, we can work our way /backwards/. Next we calculate the concrete value of $$ x \rhd \textnormal{first}' $$ and then multiply it by the concrete value of $$ x \rhd \textnormal{first} \rhd \textnormal{second}' $$.
+
+If we have $$ \frac{ d \ \textnormal{whatever} }{ d \ \textnormal{loss} } $$ (derivative of whatever with respect to loss), then we need to find $$ \frac{ d \ \textnormal{something new} }{ d \ \textnormal{whatever} } $$ (derivative of something new with respect to whatever), then multiply:
+
+$$ \frac{ d \ \textnormal{something new} }{ d \ \textnormal{whatever} } \cdot \frac{ d \ \textnormal{whatever} }{ d \ \textnormal{loss} } = \frac{ d \ \textnormal{something new} }{ d \ \textnormal{loss} } $$
+
+This allows us to /propagate/ the gradients we do know /backward/ from the loss until we know all gradients.
 * Study Log
 <2023-03-22 Wed> Video 1: Finished
 <2023-03-24 Fri> Video 2: Finished
+<2023-03-28 Tue> Video 3: Finished
+<2023-03-29 Wed> Video 4: Finished
+<2023-03-30 Thu> Video 5: 1:21
