@@ -58,8 +58,8 @@ $$ \log_b \left( \frac{n}{m} \right) = \log_b(n) - \log_b(m) $$
 When having to multiply or divide many numbers, numbers can become very large or very small. Computers don't handle this well, so we can instead convert the values to log values and add the values. Converting to log values, adding the values, and then converting back to a regular value, is equivalent to multiplying all the values in the first place.
 
 For example, if we have to multiply 10,000 probabilities, then that number will be very small. Instead, convert the probabilities to log probabilities, add them, and then convert back from log probabilities to a regular probability. This will be equivalent to simply multiplying all the probabilities, but will avoid the problems from very small numbers.
-** Loss function of language model
-The loss function, which evaluates how good the model is, measure the /log-likelihood/ of the training data.
+** Loss function of language model: log-likelihood
+The loss function, which evaluates how good the model is, measures the /log-likelihood/ of the training data.
 
 The model is given the previous items of a sequence, and then predicts the next item in the sequence, and a good model will assign high probability to the next item which actually occured in the training data.
 
@@ -76,11 +76,13 @@ Tensors have views. Multiple views may point to the same underlying data. Each v
 
 See: https://pytorch.org/docs/stable/tensor_view.html
 ** Steps to train a model
-First, create the model. Initialize the parameters randomly as needed. Proceed using the random parameters, they are good enough to product an output.
+First, create the model. Initialize the parameters randomly as needed. Proceed using the random parameters, they are good enough to produce an output.
 
 After we have an output from the model, evaluate the output using the loss function.
 
 Once we have the loss, perform backpropagation and optimize the parameters.
+
+Build out the forward pass, build out the loss, build out the predictions, then optimize.
 * Video 4: Building makemore Part 3: Activations & Gradients, BatchNorm
 ** Dead neuron
 A dead neuron outputs the same thing for all possible inputs. Dead neurons can be caused by bad parameter initialization, or by a learning rate that is too large.
@@ -121,9 +123,116 @@ If we have $$ \frac{ d \ \textnormal{whatever} }{ d \ \textnormal{loss} } $$ (de
 $$ \frac{ d \ \textnormal{something new} }{ d \ \textnormal{whatever} } \cdot \frac{ d \ \textnormal{whatever} }{ d \ \textnormal{loss} } = \frac{ d \ \textnormal{something new} }{ d \ \textnormal{loss} } $$
 
 This allows us to /propagate/ the gradients we do know /backward/ from the loss until we know all gradients.
+
+The derivative of many functions is:
+
+$$ (f_4(f_3(f_2(f_1'(x)))))' = f_4'(f_3(f_2(f_1(x)))) \cdot f_3'(f_2(f_1(x))) \cdot f_2'(f_1(x)) \cdot f_1'(x) $$
+
+The chain rule connects each individual derivative into a derivative for the whole, it creates a /chain/.
+* Video 6: Building makemore Part 5: Building a WaveNet
+** Embed with a single linear transformation
+In the past, I have used deep networks for embedding, but this was probably a mistake.
+
+When embedding, use a single linear transformation as the embedding layer to start with; a single linear layer without biases.
+** Unpack to assert shape
+Unpacking is helpful when dealing with tensor shapes. If you unpack the wrong number of variables it will be an error.
+
+You can also compare tensor shapes to tuples using equality.
+#+begin_src python
+  a, b, c = X.shape
+  assert X.shape == (4, 20, 2)
+
+  d, = Y.shape
+  assert Y.shape == (6,)
+  # etc
+#+end_src
+** tensor.view keeps latter dimensions together
+When reshaping a tensor with ~tensor.view~, the latter dimensions stay together more tightly than the early dimensions.
+* Video 7: Let's build GTP: from scratch, in code, spelled out
+** Reversible functions: encode, decode
+Whenever defining a reversible function, it's helpful to also define it's inverse.
+
+For machine learning, we might define an ~encode~ function, and it helps to also define a ~decode~ function.
+** Embeddings / lookups for integers and floats
+A matrix is equivalent to an embedding lookup. If you multiply the matrix by a one-hot vector, then you "pluck out" the column for the one-hot value.
+
+With integers, you can also get the column by indexing.
+
+With floats, you cannot use indexing, but the matrix multiplication will still result in an embedding of sort.
+** Parts of a transformer
+- Token embeddings
+- Position embeddings
+
+- Key linear layer
+- Query linear layer
+- Value linear layer
+*** Token embeddings
+The tokens themselves are embedded, and the token positions are embedded.
+
+They are added together to produce the input to the self-attention head.
+*** Self-attention head
+Each self-attention head has 3 linear layers: key, query, and value
+
+Key, query, and value are similar, they are all linear layers of the same size that operate on the same inputs. Each of the 3 has their own parameters though, their own weights.
+
+The difference between key, query and value are where they are used in the self-attention head formula, which is roughly as follows:
+
+#+begin_src
+  input_embeddings = receive_self_attention_head_input()
+  assert input_embeddings size == (batch_size, context_size, embedding_size)
+
+  k = key_linear_layer(input_embeddings)
+  q = query_linear_layer(input_embeddings)
+  v = value_linear_layer(input_embeddings)
+  assert k, q, v sizes == (batch_size, context_size, self_attention_head_layer_size)
+
+  affinities = q @ k.T  # k transpose
+  assert affinities size == (batch_size, context_size, context_size)
+
+  affinities *= self_attention_head_layer_size^(-0.5)  # keeps input variance stable
+  affinities = mask(affinities)  # mask controls what attention can look at
+  affinities = softmax(affinities)
+  self_attention_head_output = affinities @ v
+  assert self_attention_head_output == (batch_size, context_size, self_attention_head_layer_size)
+#+end_src
+*** Multi-head attention
+Run several of the self-attention heads in parallel, on the same input, and then concatenate their outputs.
+*** Block
+Run the inputs through multi-head attention, then run their output through a linear layer.
+
+Use residual connections inside the block:
+
+#+begin_src
+  x = receive_block_input()
+  x = x + multi_head_attention(x)
+  x = x + linear_layer(x)
+  block_output = x
+#+end_src
+
+Stack several blocks on top of each other.
+
+Essentially, intersperse attention heads and linear layers, and connect them all with residual connections.
+** Residual connections / skip connections
+Remember that when we have $$ x = a + b + c $$, the derivative is $$ dx = da + db + dc $$. That is, the change in any of the terms a, b, or c, directly contributes to the change in x.
+
+With residual connections we simply add the outputs of several residual blocks. This helps distribute the gradient evenly among all residual blocks.
+
+With residual connections, each residual blocks gets to /add/ it's own contribution to the ongoing calculation. Order matters.
+
+In pseudo code, this looks like:
+
+#+begin_src
+  x = x + residual_block_1(x)
+  x = x + residual_block_2(x)
+  # etc
+#+end_src
+
+The output of ~residual_block_1~ influences ~residual_block_2~, and not vice versa. Yet all make a direct /addition/ to x and thus directly share in the change in x. This means that the gradient of x will flow into each residual block directly.
 * Study Log
 <2023-03-22 Wed> Video 1: Finished
 <2023-03-24 Fri> Video 2: Finished
 <2023-03-28 Tue> Video 3: Finished
 <2023-03-29 Wed> Video 4: Finished
-<2023-03-30 Thu> Video 5: 1:21
+<2023-03-30 Thu> Video 5: Finished
+<2023-03-31 Fri> Video 6: Finished
+<2023-04-03 Mon> Video 7: Finished
