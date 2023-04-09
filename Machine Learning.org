@@ -6,4 +6,10 @@
 ** Notebooks from University of Amsterdam's Deep Learning MSc Course
 https://uvadlc-notebooks.readthedocs.io/en/latest/index.html
 
-Chapter 6 covers transformers.
+Tutorial 6 covers transformers.
+** Efficiently Modeling Long Sequences with Structured State Spaces
+https://arxiv.org/abs/2111.00396
+
+A sequence modelling architecture I want to research. It appears to be closer to an RNN than a Transformer.
+** Transformer Pseudocode
+https://arxiv.org/abs/2207.09238
