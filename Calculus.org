@@ -4,6 +4,10 @@
 #+title: Calculus
 * Calculus Drills
 ** General Formula for the Derivative                                 :drill:
+:PROPERTIES:
+:ID:       6943FD4D-24ED-40C6-B7B4-20F9AA21BCC9
+:ROAM_EXCLUDE: t
+:END:
 What is the general formula for the derivative?
 *** Answer
 $$ y' = \frac{f(x+h) - f(x)}{h} $$
@@ -12,88 +16,172 @@ $$ y' = \frac{f(x+h) - f(x)}{h} $$
 
 $$ dy = \frac{f(x+dx) - f(x)}{dx} $$
 ** Differential 1                                                     :drill:
+:PROPERTIES:
+:ID:       C402CDA4-A835-4950-847D-964984CFBA3E
+:ROAM_EXCLUDE: t
+:END:
 $$ d(C) =\ ? $$
 *** Answer
 $$ d(C) = 0 $$
 ** Differential 2                                                     :drill:
+:PROPERTIES:
+:ID:       BC79F1E5-D7E3-4FE2-B77A-E49DD4931D44
+:ROAM_EXCLUDE: t
+:END:
 $$ d(u) =\ ? $$
 *** Answer
 $$ d(u) = du $$
 ** Differential 3                                                     :drill:
+:PROPERTIES:
+:ID:       66E12E1F-D571-4923-81C3-BD99C5883B83
+:ROAM_EXCLUDE: t
+:END:
 $$ d(n\ u) =\ ? $$
 *** Answer
 $$ d(n\ u) = n\ du $$
 ** Differential 4                                                     :drill:
+:PROPERTIES:
+:ID:       D1DC358C-4474-428E-8024-0551270B0697
+:ROAM_EXCLUDE: t
+:END:
 $$ d(u^n) =\ ? $$
 *** Answer
 $$ d(u^n) = n\ u^{n-1}\ du $$
 ** Differential 5                                                     :drill:
+:PROPERTIES:
+:ID:       1389C8D5-7615-4A8E-8647-AC467117257B
+:ROAM_EXCLUDE: t
+:END:
 $$ d(u + v) =\ ? $$
 *** Answer
 $$ d(u + v) = du + dv $$
 ** Differential 6                                                     :drill:
+:PROPERTIES:
+:ID:       19C65B6A-B9AA-4662-BA72-4F463E2BDA82
+:ROAM_EXCLUDE: t
+:END:
 $$ d(u - v) =\ ? $$
 *** Answer
 $$ d(u - v) = du - dv $$
 ** Differential 7                                                     :drill:
+:PROPERTIES:
+:ID:       FF08CAE1-F141-429A-9735-0CB58FB2E505
+:ROAM_EXCLUDE: t
+:END:
 $$ d(u\ v) =\ ? $$
 *** Answer
 $$ d(u\ v) = u\ dv + v\ du $$
 ** Differential 8                                                     :drill:
+:PROPERTIES:
+:ID:       9B29B8F7-155C-45FF-8DCE-D60E2CBBDAA1
+:ROAM_EXCLUDE: t
+:END:
 $$ d \left( \frac{u}{v} \right) =\ ? $$
 *** Answer
 $$ d \left( \frac{u}{v} \right) = \frac{v\ du - u\ dv}{v^2} $$
 ** Differential 9                                                     :drill:
+:PROPERTIES:
+:ID:       B2A3F5A0-9054-4F79-9A11-5057846F26A6
+:ROAM_EXCLUDE: t
+:END:
 $$ d(\ln(u)) =\ ? $$
 *** Answer
 $$ d(\ln(u)) = \frac{du}{u} $$
 ** Differential 10                                                    :drill:
+:PROPERTIES:
+:ID:       FD94F9FE-EA67-4931-844C-19706A898874
+:ROAM_EXCLUDE: t
+:END:
 $$ d(\log_n(u)) =\ ? $$
 *** Answer
 $$ d(\log_n(u)) = \frac{du}{u \ln(n)} $$
 ** Differential 11                                                    :drill:
+:PROPERTIES:
+:ID:       C9D081D8-8B32-4AE3-880A-667F5BBBDC99
+:ROAM_EXCLUDE: t
+:END:
 $$ d(\ln(|u|)) =\ ? $$
 *** Answer
 $$ d(\ln(|u|)) = \frac{du}{u} $$
 ** Differential 12                                                    :drill:
+:PROPERTIES:
+:ID:       E3875CA1-EB61-427A-B834-94FE0DEF7739
+:ROAM_EXCLUDE: t
+:END:
 $$ d(\log_n(|u|)) =\ ? $$
 *** Answer
 $$ d(\log_n(|u|)) = \frac{du}{u \ln(n)} $$
 ** Differential 13                                                    :drill:
+:PROPERTIES:
+:ID:       EF929D2D-242E-448A-A17A-2B755685B81C
+:ROAM_EXCLUDE: t
+:END:
 $$ d(e^u) =\ ? $$
 *** Answer
 $$ d(e^u) = e^u\ du $$
 ** Differential 14                                                    :drill:
+:PROPERTIES:
+:ID:       33F2FBB5-79DE-4F9D-8076-1F7802FF3668
+:ROAM_EXCLUDE: t
+:END:
 $$ d(n^u) =\ ?\ (\textnormal{where } n > 0) $$
 *** Answer
 $$ d(n^u) = \ln(n)\ n^u\ du\ (\textnormal{where } n > 0) $$
 ** Differential 15                                                    :drill:
+:PROPERTIES:
+:ID:       49D21D3E-F0F9-45F1-A7EC-0E8CE9BD4058
+:ROAM_EXCLUDE: t
+:END:
 $$ d(\sin(u)) =\ ? $$
 *** Answer
 $$ d(\sin(u)) = \cos(u)\ du $$
 ** Differential 16                                                    :drill:
+:PROPERTIES:
+:ID:       3EDE78ED-C37C-4EEE-9B44-9B481480B49B
+:ROAM_EXCLUDE: t
+:END:
 $$ d(\cos(u)) =\ ? $$
 *** Answer
 $$ d(\cos(u)) = -\sin(u)\ du $$
 ** Differential 17                                                    :drill:
+:PROPERTIES:
+:ID:       7392338F-5D7D-4FFC-AC2F-E4C0DFC1B668
+:ROAM_EXCLUDE: t
+:END:
 $$ d^{2}u =\ ? $$
 *** Answer
 $$ d^{2}u = d(du) = d(d(u)) $$
 ** Differential 18                                                    :drill:
+:PROPERTIES:
+:ID:       3B04946E-E8CF-41F8-A07F-5406E7BD4513
+:ROAM_EXCLUDE: t
+:END:
 $$ \frac{d}{dv}(u) =\ ? $$
 *** Answer
 $$ \frac{d}{dv}(u) = \frac{du}{dv} $$
 ** Differential 19                                                    :drill:
+:PROPERTIES:
+:ID:       9C11E57C-92ED-436C-9BDA-97EF9E5276DA
+:ROAM_EXCLUDE: t
+:END:
 $$ d(u^v) =\ ? $$
 *** Answer
 $$ d(u^v) = v\ u^{v-1}\ du + \ln(u)\ u^v\ dv $$
 ** Differential 20                                                    :drill:
+:PROPERTIES:
+:ID:       939EAAED-CAED-4269-BFD6-A4528047F656
+:ROAM_EXCLUDE: t
+:END:
 $$ d(\log_u(v)) =\ ? $$
 *** Answer
 $$ d(\log_u(v)) = \frac{dv}{v \ln(u)} - \frac{\log_u(v)\ du}{u \ln(u)} $$
 - or -
 $$ d(\log_u(v)) = \frac{dv}{v \ln(u)} - \frac{\ln(v)\ du}{u \ln(u) \ln(u)} $$
 ** Differential vs Derivative Operations                              :drill:
+:PROPERTIES:
+:ID:       2782A6E0-F0F7-4C0F-8D62-A27EF05A66AE
+:ROAM_EXCLUDE: t
+:END:
 What is the meaning of following operations?
 
 $$ d(...) $$
@@ -104,6 +192,10 @@ $$ \frac{d}{dx}(...) $$
 *** Answer
 The first is the "differential" operation. The latter two are "derivative" operations with respect to x.
 ** dy / dx and Slope                                                  :drill:
+:PROPERTIES:
+:ID:       2038B1CA-10CD-4470-B010-8820DDBA5CB5
+:ROAM_EXCLUDE: t
+:END:
 What does $\frac{dy}{dx}$ mean?
 *** Answer
 Slope.
@@ -122,32 +214,60 @@ Thus, "rise over run" would be dy / dx.
 
 "Change in y per change in x."
 ** Integration Symbol                                                 :drill:
+:PROPERTIES:
+:ID:       9A268BA0-20C8-47A2-81CF-647BA2F1AD9B
+:ROAM_EXCLUDE: t
+:END:
 What is the integration symbol and what is it meant to suggest?
 *** Answer
 $$ \int $$
 
 It is an "elongated S", to suggest "summation".
 ** Integral 1                                                         :drill:
+:PROPERTIES:
+:ID:       829C21D3-3FA5-4A91-9A8D-2C8A89BFC996
+:ROAM_EXCLUDE: t
+:END:
 $$ \int du =\ ? $$
 *** Answer
 $$ \int du = u + C $$
 ** Integral 2                                                         :drill:
+:PROPERTIES:
+:ID:       1FA4AEBC-9619-4FC1-8B8A-E851735412B5
+:ROAM_EXCLUDE: t
+:END:
 $$ \int (du + dv) =\ ? $$
 *** Answer
 $$ \int (du + dv) = \int du + \int dv $$
 ** Integral 3                                                         :drill:
+:PROPERTIES:
+:ID:       47C11CC6-D5A9-4496-9AAA-89C4ADA2F261
+:ROAM_EXCLUDE: t
+:END:
 $$ \int n\ du =\ ? $$
 *** Answer
 $$ \int n\ du = n \int du $$
 ** Integral 4                                                         :drill:
+:PROPERTIES:
+:ID:       F61E63E4-A579-42D3-8AA4-26CE9EA4DBDD
+:ROAM_EXCLUDE: t
+:END:
 $$ \int u^n\ du =\ ? $$
 *** Answer
 $$ \int u^n\ du = \frac{u^{n+1}}{n+1} + C $$
 ** Integral 5                                                         :drill:
+:PROPERTIES:
+:ID:       7AD282DB-72B6-4FD0-A057-E2D6E26C1AC0
+:ROAM_EXCLUDE: t
+:END:
 $$ \int \frac{du}{u} =\ ? $$
 *** Answer
 $$ \int \frac{du}{u} = \ln(|u|) + C $$
 ** Integral 6                                                         :drill:
+:PROPERTIES:
+:ID:       4CC74132-BE01-460A-B5C3-0069230D313B
+:ROAM_EXCLUDE: t
+:END:
 $$ \int n^u\ du =\ ? $$
 *** Answer
 $$ \int n^u\ du = \frac{n^u}{\ln(n)} + C $$

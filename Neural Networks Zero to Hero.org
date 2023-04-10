@@ -2,20 +2,25 @@
 :ID:       a3cc7712-50dd-4ed6-99f4-c36bd4052ecf
 :END:
 #+title: Neural Networks Zero to Hero
-* Video 1: The spelled-out intro to neural networks and backpropagation: building micrograd
-** Autograd
+* Videos
+** Course Info
+A course by Andrej Karpathy on building neural networks, from scratch, in code.
+
+https://karpathy.ai/zero-to-hero.html
+** Video 1: The spelled-out intro to neural networks and backpropagation: building micrograd
+*** Autograd
 The first half of this video demonstrates a simple autograd implementation.
-** Components of neural network training
-*** Arguments
+*** Components of neural network training
+**** Arguments
 The real world data you're training on. These are one of the inputs to the neural network.
-*** Parameters
+**** Parameters
 The other inputs to the neural network. These are what we are trying to learn. Adjusting the parameters to minimize loss /is/ learning.
-*** Neural network
+**** Neural network
 Arguments and parameters are input into the neural network and a prediction is made. The loss function evaluates how good the prediction is. A backwards pass through the loss function and neural network gives us the gradients of the parameters, which we can use to optimize the neural network and minimize the loss.
-*** Loss function
+**** Loss function
 A function that evaluates how good the neural network's prediction is.
-* Video 2: The spelled-out intro to language models: building makemore
-** PyTorch broadcasting semantics
+** Video 2: The spelled-out intro to language models: building makemore
+*** PyTorch broadcasting semantics
 I will represent tensor dimensions using tuples in the following explanation:
 
 #+begin_src
@@ -46,9 +51,9 @@ I will represent tensor dimensions using tuples in the following explanation:
 #+end_src
 
 See: https://pytorch.org/docs/stable/notes/broadcasting.html
-** Logits
+*** Logits
 Logits is an overloaded term. In machine learning, it often refers to the inputs to a softmax layer. The softmax layer exponentiates the inputs and normalizes them. Exponentiating the inputs makes them positive, and normalizing them makes them into a probability distribution.
-** Using logs for very large and very small numbers
+*** Using logs for very large and very small numbers
 Remember the log rules:
 
 $$ \log_b(n \cdot m) = \log_b(n) + \log_b(m) $$
@@ -58,24 +63,24 @@ $$ \log_b \left( \frac{n}{m} \right) = \log_b(n) - \log_b(m) $$
 When having to multiply or divide many numbers, numbers can become very large or very small. Computers don't handle this well, so we can instead convert the values to log values and add the values. Converting to log values, adding the values, and then converting back to a regular value, is equivalent to multiplying all the values in the first place.
 
 For example, if we have to multiply 10,000 probabilities, then that number will be very small. Instead, convert the probabilities to log probabilities, add them, and then convert back from log probabilities to a regular probability. This will be equivalent to simply multiplying all the probabilities, but will avoid the problems from very small numbers.
-** Loss function of language model: log-likelihood
+*** Loss function of language model: log-likelihood
 The loss function, which evaluates how good the model is, measures the /log-likelihood/ of the training data.
 
 The model is given the previous items of a sequence, and then predicts the next item in the sequence, and a good model will assign high probability to the next item which actually occured in the training data.
 
 For example, let's say we are training a name generating model. We have trained the model on the name "Bob". When we tell the model "the first two letters are B and O", we expect that the model will return a high probability that the next letter is B. This would mean that the model has learned to make predictions that match the input data.
-* Video 3: Building makemore Part 2: MLP
-** Padding with one-hots
+** Video 3: Building makemore Part 2: MLP
+*** Padding with one-hots
 Padding works well with neural networks, especially with one-hot encoding. In more complex cases, include a boolean input that indicates whether or not the value is present.
-** Python has an @ operator
+*** Python has an @ operator
 Python 3.5+ has an @ operator that is used for matrix multiplication.
-** torch.unbind
+*** torch.unbind
 ~torch.unbind~ will return a list of tensors from a given dimension.
-** Tensor views
+*** Tensor views
 Tensors have views. Multiple views may point to the same underlying data. Each view may present the underlying data differently; as a different shape for example. If the underlying data is changed, then all views also change.
 
 See: https://pytorch.org/docs/stable/tensor_view.html
-** Steps to train a model
+*** Steps to train a model
 First, create the model. Initialize the parameters randomly as needed. Proceed using the random parameters, they are good enough to produce an output.
 
 After we have an output from the model, evaluate the output using the loss function.
@@ -83,25 +88,25 @@ After we have an output from the model, evaluate the output using the loss funct
 Once we have the loss, perform backpropagation and optimize the parameters.
 
 Build out the forward pass, build out the loss, build out the predictions, then optimize.
-* Video 4: Building makemore Part 3: Activations & Gradients, BatchNorm
-** Dead neuron
+** Video 4: Building makemore Part 3: Activations & Gradients, BatchNorm
+*** Dead neuron
 A dead neuron outputs the same thing for all possible inputs. Dead neurons can be caused by bad parameter initialization, or by a learning rate that is too large.
 
 A neuron becomes dead due to flat portions of the space/graph in the forward pass. The gradient is thus zero, because small changes either way make no difference. Because the gradient is zero, the associated parameters are never updated.
-** Parameter initialization
+*** Parameter initialization
 Parameter initialization can be important. Bad parameter initialization can lead to dead neurons, and the network might never recover from these dead neurons.
-** Batch normalization
+*** Batch normalization
 Batch normalization was invented in 2015 by Google. It forces activations to be normal before running the activation function. It makes the output of the neural network a function of the entire batch rather than the individual rows.
-*** Use bias=False in PyTorch
+**** Use bias=False in PyTorch
 A BatchNorm layer has its own bias, which means that the Linear layer does not need a bias; so use ~torch.Linear(..., bias=False)~
-** Idea: activation regularization
+*** Idea: activation regularization
 Batch normalization is forceful, it forces the batch activations to be normal. What if instead we used a loss penalty to perform regularization on the pre-activations and encourage them to be around 0?
-** Log lots of things
+*** Log lots of things
 Log forward pass activations, log gradients, etc.
 
 It's especially useful to log the gradient to weight ratio, or better yet, the update to weight ratio. We usually want to be applying updates that are about 1 / 1,000th (one one-thousandth) of the weight.
-* Video 5: Building makemore Part 4: Becoming a Backprop Ninja
-** Chain rule
+** Video 5: Building makemore Part 4: Becoming a Backprop Ninja
+*** Chain rule
 If $$ h(x) = f(g(x)) $$ then:
 
 $$ h'(x) = f'(g(x)) \cdot g'(x) $$
@@ -129,12 +134,12 @@ The derivative of many functions is:
 $$ (f_4(f_3(f_2(f_1'(x)))))' = f_4'(f_3(f_2(f_1(x)))) \cdot f_3'(f_2(f_1(x))) \cdot f_2'(f_1(x)) \cdot f_1'(x) $$
 
 The chain rule connects each individual derivative into a derivative for the whole, it creates a /chain/.
-* Video 6: Building makemore Part 5: Building a WaveNet
-** Embed with a single linear transformation
+** Video 6: Building makemore Part 5: Building a WaveNet
+*** Embed with a single linear transformation
 In the past, I have used deep networks for embedding, but this was probably a mistake.
 
 When embedding, use a single linear transformation as the embedding layer to start with; a single linear layer without biases.
-** Unpack to assert shape
+*** Unpack to assert shape
 Unpacking is helpful when dealing with tensor shapes. If you unpack the wrong number of variables it will be an error.
 
 You can also compare tensor shapes to tuples using equality.
@@ -146,31 +151,31 @@ You can also compare tensor shapes to tuples using equality.
   assert Y.shape == (6,)
   # etc
 #+end_src
-** tensor.view keeps latter dimensions together
+*** tensor.view keeps latter dimensions together
 When reshaping a tensor with ~tensor.view~, the latter dimensions stay together more tightly than the early dimensions.
-* Video 7: Let's build GTP: from scratch, in code, spelled out
-** Reversible functions: encode, decode
+** Video 7: Let's build GTP: from scratch, in code, spelled out
+*** Reversible functions: encode, decode
 Whenever defining a reversible function, it's helpful to also define it's inverse.
 
 For machine learning, we might define an ~encode~ function, and it helps to also define a ~decode~ function.
-** Embeddings / lookups for integers and floats
+*** Embeddings / lookups for integers and floats
 A matrix is equivalent to an embedding lookup. If you multiply the matrix by a one-hot vector, then you "pluck out" the column for the one-hot value.
 
 With integers, you can also get the column by indexing.
 
 With floats, you cannot use indexing, but the matrix multiplication will still result in an embedding of sort.
-** Parts of a transformer
+*** Parts of a transformer
 - Token embeddings
 - Position embeddings
 
 - Key linear layer
 - Query linear layer
 - Value linear layer
-*** Token embeddings
+**** Token embeddings
 The tokens themselves are embedded, and the token positions are embedded.
 
 They are added together to produce the input to the self-attention head.
-*** Self-attention head
+**** Self-attention head
 Each self-attention head has 3 linear layers: key, query, and value
 
 Key, query, and value are similar, they are all linear layers of the same size that operate on the same inputs. Each of the 3 has their own parameters though, their own weights.
@@ -195,9 +200,9 @@ The difference between key, query and value are where they are used in the self-
   self_attention_head_output = affinities @ v
   assert self_attention_head_output == (batch_size, context_size, self_attention_head_layer_size)
 #+end_src
-*** Multi-head attention
+**** Multi-head attention
 Run several of the self-attention heads in parallel, on the same input, and then concatenate their outputs.
-*** Block
+**** Block
 Run the inputs through multi-head attention, then run their output through a linear layer.
 
 Use residual connections inside the block:
@@ -212,7 +217,7 @@ Use residual connections inside the block:
 Stack several blocks on top of each other.
 
 Essentially, intersperse attention heads and linear layers, and connect them all with residual connections.
-** Residual connections / skip connections
+*** Residual connections / skip connections
 Remember that when we have $$ x = a + b + c $$, the derivative is $$ dx = da + db + dc $$. That is, the change in any of the terms a, b, or c, directly contributes to the change in x.
 
 With residual connections we simply add the outputs of several residual blocks. This helps distribute the gradient evenly among all residual blocks.
@@ -235,4 +240,4 @@ The output of ~residual_block_1~ influences ~residual_block_2~, and not vice ver
 <2023-03-29 Wed> Video 4: Finished
 <2023-03-30 Thu> Video 5: Finished
 <2023-03-31 Fri> Video 6: Finished
-<2023-04-03 Mon> Video 7: Finished
+<2023-04-04 Tue> Video 7: Finished
