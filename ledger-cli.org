@@ -1,0 +1,14 @@
+:PROPERTIES:
+:ID:       804509DD-D951-4E82-A7AF-C937B9334D8A
+:END:
+#+title: ledger-cli
+* Reports
+** Expenses
+#+begin_src shell
+  ledger -f journals/2023.journal balance Expenses and not Taxes --period 'jan 2023'
+  hledger -f journals/2023.journal balance Expenses not:Taxes --period 'monthly from jan to mar'
+#+end_src
+** Net Worth
+#+begin_src shell
+  hledger -f journals/2023.journal bs -V --period 'monthly from jan to mar'
+#+end_src
