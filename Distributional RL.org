@@ -1,0 +1,8 @@
+:PROPERTIES:
+:ID:       5CBB0ED0-5244-4245-BC18-0A4AD6050BB5
+:END:
+#+title: Distributional RL
+Distributional Reinforcement Learning
+* Resources
+** Book
+https://www.distributional-rl.org/

@@ -1,0 +1,26 @@
+:PROPERTIES:
+:ID:       AB5DED1F-3BD2-49D3-A8B0-FE1C64F0F1E6
+:END:
+#+title: Elisp
+* Conventions
+** Comments
+Elisp comments start with one or more semicolons (~;~).
+*** Inline comments: ~;~
+Inline comments should use a single semicolon ~;~.
+
+Such comments are often vertically aligned to the right:
+
+#+begin_src elisp
+(setq base-version-list                 ; There was a base
+      (assoc (substring fn 0 start-vn)  ; version to which
+             file-version-assoc-list))  ; this looks like
+                                        ; a subversion.
+#+end_src
+*** Full line comments: ~;;~
+Comments that use a full line should start with two semicolons ~;;~.
+
+These comments should come before the code they are commenting about and should be aligned on the left with the code.
+*** Section headings: ~;;;~
+Section headings use three semicolons ~;;;~ and should be left-most aligned.
+
+Outline mode can be used to cycle the visibility of these sections.
