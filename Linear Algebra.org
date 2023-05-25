@@ -1,0 +1,95 @@
+:PROPERTIES:
+:ID:       0678CF24-88E4-4014-AC51-1316BF707906
+:END:
+#+title: Linear Algebra
+* Linear Algebra
+** Types
+*** Scalars
+A real number, rational or irrational.
+*** Vectors
+A sequence of scalars.
+
+Unless stated otherwise, we usually assume vectors are column vectors. A column vectors with 5 units would have dimension 5 x 1 (rows x columns), it is a "column vector" because there is one column.
+**** Unit vectors
+Unit vectors are often written with a hat: $$ \hat{v} $$
+
+Divide any vector by its norm to make it a unit vector.
+**** Operations
+***** Transpose
+Swaps dimensions. Columns become rows, and rows become columns.
+
+A double transpose does nothing.
+
+$$ \vec{v}^{TT} = \vec{v} $$
+
+***** Addition
+Element-wise addition. Equivalent to chaining vectors end to end and taking their resulting vector.
+
+Added vectors must have the same dimensionality.
+
+Commutative: $$ \vec{a} + \vec{b} = \vec{b} + \vec{a} $$
+
+***** Multiplication
+****** Scaling
+Element-wise multiplication / scaling.
+
+Commutative: $$ a \cdot \vec{v} = \vec{v} \cdot a $$
+
+****** Element-wise multiplication
+This is often notated with a dot in a circle.
+
+$$ a \odot b $$
+
+****** Dot product (aka, inner product)
+This is one of the most important operations in linear algebra. It is the basis of convolution, correlation, the Fourier transform, matrix multiplication, signal filtering, etc.
+
+It is a single number that represents the relationship between two vectors. It is sometimes called the "scalar product" for this reason.
+
+Vectors of the dot product must have the same dimensionality.
+
+The dot product is the sum of each element-wise product.
+******* Norm, length, variance
+The dot product of a vector with itself is the norm-squared. The square root of norm-squared is the norm, or the length. If the vector is mean-centered, then norm-squared is the statistical variance.
+******* Associative
+The dot product is associative with scalar multiplication, but not with another vector dot product:
+
+\begin{equation*}
+n \cdot ( \vec{v} \cdot \vec{u} ) =
+( n \cdot \vec{v} ) \cdot \vec{u}
+\end{equation*}
+
+\begin{equation*}
+\vec{w} \cdot ( \vec{v} \cdot \vec{u} ) \neq
+( \vec{w} \cdot \vec{v} ) \cdot \vec{u}
+\end{equation*}
+
+******* Angle between vectors / cos
+The dot product is the cosine of the angle between two vectors times the the lengths of the two vectors:
+
+dot(a, b) = cos(angle_between(a, b)) * norm(a) * norm(b)
+
+Thus:
+
+cos(angle_between(a, b)) = dot(a, b) / (norm(a) * norm(b))
+******* Neat application: weighted sum
+The dot product is a multiplication followed by a sum. This pattern can be used to calculate a weighted sum by taking the dot product of the data and the weights. If the weights sum to 1, then the result will be a weighted average.
+****** Outer product
+The dot product (aka, inner product) and outer product are just special cases of matrix multiplication.
+
+The outer product does *not* require the vectors to have the same dimensions.
+
+The outer product is a multiplication between a column vector and a row vector.
+
+There are a few ways of looking at it: The column is replicated and then scaled by the elements of the row. Or, the row is replicated and then scaled by the elements of the column.
+****** Cross product
+An operation between two vectors with 3 elements each.
+
+Similar to the dot product, but involves sin instead of cos.
+
+Rarely used in data analysis, statistics, machine learning, or signal-processing.
+
+Can be used to find a vector orthogonal to a plane.
+* Books
+** Linear Algebra: Theory Intuition Code by Mike X Cohen
+*** Reading Log
+<2023-05-25> Finished Chapter 3

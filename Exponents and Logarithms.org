@@ -1,0 +1,24 @@
+:PROPERTIES:
+:ID:       BE1A641B-720C-4385-BE31-26B529B15D34
+:END:
+#+title: Exponents and Logarithms
+* Different notation is confusing, use exp(x) instead
+An exponent and a logarithm are inverse operations, but they have completely different notation.
+
+Exponents are written $$ e^x $$, but logarithms are written using function notation $$ \ln(x) $$.
+
+I could use a different notation like $$ \exp_b(x) $$ for exponents. This is less confusing to me.
+* Logarithm rules
+** Power rule
+$$ \log(x^n) = n \log(x) $$
+*** Proof
+\begin{align*}
+y &= \ln(x) \\
+\exp(y) &= \exp(\ln(x))    && \text{$\exp$ both sides, $\exp(x) = e^x$} \\
+e^y &= x                   && \text{back to normal exponential notation} \\
+e^{(yn)}&= x^n             && \text{raise both sides to $n$} \\
+\exp(yn) &= x^n            && \text{back to exp notation} \\
+\ln(\exp(yn)) &= \ln(x^n)  && \text{$\ln$ both sides} \\
+yn &= \ln(x^n) \\
+ln(x)\ n &= ln(x^n)        && \text{done, remember $y = \ln(x)$ from above}
+\end{align*}
