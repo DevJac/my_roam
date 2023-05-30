@@ -89,6 +89,56 @@ Similar to the dot product, but involves sin instead of cos.
 Rarely used in data analysis, statistics, machine learning, or signal-processing.
 
 Can be used to find a vector orthogonal to a plane.
+** Concepts
+*** Vector space / linear space
+A vector space is any set of objects for which addition and scalar multiplication are defined and follow these rules:
+
+- Additive inverse: a + (-a) = 0
+- Associativity: (a + b) + c = a + (b + c)
+- Commutativity: a + b = b + a
+- Additive identity: a + 0 = a
+- Multiplicative identity: 1a = a
+- Distributivity: (a + b)(x + y) = ax + ay + bx + by
+- Closed under addition and scalar multiplication. This means that any linear combination of vectors in the space results in another valid vector of the space.
+- Contains the zeros vector.
+*** Vector subspace
+A subspace is the span of all points you can reach by stretching and combining (scaling and adding) a set of vectors.
+**** Number of subspaces in an ambient space
+A 3D /ambient/ space will have:
+
+1 0-dimensional subspace at the origin, the span of the zero vector.
+Infinity 1-dimensional (line) subspaces.
+Infinity 2-dimensional (plane) subspaces.
+1 3D subspace that is the same as the ambient space.
+
+Note, that's 4 subspace dimensions possible from a 3D space. The middles are infinite, the ends are 1. For an N-dimensional space, there are N+1 possible subspaces.
+**** Vector space vs vector subspace
+The difference between a vector space and a subspace is contextual. If, in context, we are talking about a smaller space of a larger space, then it is, naturally, called a subspace.
+
+Every subspace is a vector space. And every vector space is a subspace of itself, technically, and also of all larger spaces.
+*** Span
+The span of a set of vectors is all the points that can be reached by a linear combination (a "weighted sum") of the vectors in that set.
+
+A span is very similar to a space. A space is more of a noun, and a span is more of a verb, or more of a property of the vectors.
+
+Vectors have a span, and are in a space. Vectors span a subspace.
+*** Linear independence
+A set of vectors is linearly /independent/ if each vector contributes to the span of the set.
+
+There's a few different ways of saying this:
+- The dimension of the span of the set equals the number of vectors in the set.
+- None of the vectors could be created by a linear combination of the other vectors.
+- A weighted sum of the vectors cannot produce 0 (excluding the trivial case of all weights being 0).
+
+If a set of vectors is not linearly independent, then they are linearly /dependent/.
+
+Linear independence is a property that a set of vectors may possess. It is not a property of individual vectors but a property of a set of vectors.
+*** Basis
+A basis for a subspace is a set of vectors that are linearly independent and can span the space.
+
+There are infinitely many sets of basis vectors for any space, except the 0 space. Any linearly independent set of vectors is a basis of the space they span.
+
+If the set of basis vectors were not linearly independent, the the coordinates of any point in the space would be unclear. That is, there would be multiple combinations of basis vectors that could result in the same vector.
 * Books
 ** Linear Algebra: Theory Intuition Code by Mike X Cohen
 *** Reading Log
