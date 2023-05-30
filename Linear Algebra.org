@@ -89,6 +89,119 @@ Similar to the dot product, but involves sin instead of cos.
 Rarely used in data analysis, statistics, machine learning, or signal-processing.
 
 Can be used to find a vector orthogonal to a plane.
+*** Matrices
+**** Size
+A M x N matrix has M rows and N columns.
+
+It's common to use "M x N" and rows comes before columns in the size: rows x column.
+**** Special matrices
+***** Square / non-square
+A square matrix has the same number of rows and columns.
+***** Symmetric / asymmetric
+A matrix is symmetric is it is equal to its own transpose. A symmetric matrix must be square.
+****** Skew-symmetric
+In a skew-symmetric matrix one triangle has the opposite sign as the other. This requires that the diagonal be all zeros.
+
+A matrix is skew-symmetric if it is equal to the negative of its own transpose.
+***** Identity
+An identity matrix is square, with all zeros except for 1's on the diagonal.
+
+It could more accurately be called the "multiplicative identity matrix" to distinguish it from the "addititve identity matrix" which would be all zeros.
+***** Diagonal
+A diagonal matrix has only zeros off the diagonal. It may have any values on the diagonal, but may only have zeros everywhere else.
+
+Diagonal matrices can be rectangular. They must have zeros everywhere except for where the row index equals the column index (the diagonal).
+
+A "hollow" matrix is the opposite, a hollow matrix must have zeros on the diagonal, but may have other values everywhere else.
+
+An "anti-diagonal" goes from the top-right to the lower-left.
+***** Augmented
+An augmented matrix is the result of concatenating two or more matrices column-wise (the rows grow, but the length and values of the columns is preserved).
+
+A vertical line is often placed in the resulting matrix to separate the two matrices.
+
+Augmented matrices are used when solving systems of linear equations, among other things.
+***** Triangular
+Triangular matrices has all zeros in either the upper triangle, or lower triangle. The diagonal may have non-zero values. They may be rectangular.
+***** Sparse / dense (full)
+A sparse matrix consists of mostly zeros.
+
+The opposite is a "dense" matrix, which consists of mostly non-zero values (also called a "full matrix").
+
+In computation, a sparse matrix is often represented by listing the values of non-zero elements, rather than storing every element (most of which would be zero).
+***** Orthogonal
+All columns are orthogonal with every other column (their dot product is 0, 90 degree angles between them), and every column vector is length 1.
+***** Toeplitz / Hankel
+In a Toeplitz matrix each row is a "rotation" of the row above.
+
+#+begin_src 
+[[a, b, c, d],
+ [d, a, b, c],
+ [c, d, a, b],
+ [b, c, d, a]]
+#+end_src
+
+A Hankel matrix rotates the other way. And may contain zeros in the lower right triangle.
+
+#+begin_src 
+[[a, b, c, d],
+ [b, c, d, 0],
+ [c, d, 0, 0],
+ [d, 0, 0, 0]]
+
+[[a, b, c, d],
+ [b, c, d, a],
+ [c, d, a, b],
+ [d, a, b, c]]
+#+end_src
+**** AtA (A transpose A)
+AtA, that is, A transposed with itself has many interesting properties:
+
+- It is a square matrix, even if A is rectangular.
+- It is symmetric, even if A isn't.
+- It is full rank if A is full column-rank.
+- It is invertible if A is full column-rank.
+- It has the same row space as A.
+- It has orthogonal eigenvectors.
+- It is positive and (semi)definite.
+- It has non-negative, real-valued eigenvalues.
+- It is called a "covariance matrix" if A is a data matrix.
+- It often looks pretty.
+**** Operations
+***** Addition / subtraction
+Simple element-wise addition and subtraction. Matrices must be the same size, and the result is the same size.
+
+Matrix addition is commutative: A + B = B + A
+***** Scalar multiplication
+Scalar-matrix multiplication is simple element-wise multiplication.
+
+Matrix-scalar multiplication is commutative: n * A = A * n
+***** Matrix multiplication
+Matrix multipliation is not commutative: A times B does not equal B times A.
+
+An A x B matrix multipled by a C x D matrix results in a A x D matrix, and B and C must be equal.
+****** 4 perspectives on matrix multiplication
+[[./images/matrix_multiplication_perspectives.png]]
+******* Element perspective (dot product focused)
+If we have AB = C, every element of C is the dot product of the corresponding row of A and column of B. In other words, the resulting matrix contains every possible dot product between rows of A and columns of B.
+
+If we have A x B times B x C, then we know the result will be A x C. A represents rows, C represents columns, we know this because of their position in the matrix shape notation. Knowing this, we know that the row count of the result comes from the first matrix and the column count comes from the second.
+
+[[./images/matrix_multiplication.png]]
+******* Layer perspective (outer product focused)
+If we have AB = C, then C is the sum of every outer product of the corresponding columns in A and rows in B.
+
+The number of columns in A equals the number of rows in B, so they can be paired. The outer product of a single one of these pairs is a "layer", and has the same shape as C (the matrix multiplication result). If we sum all the layers, we get C.
+
+Thus, matrix multiplication is the sum of many outer products.
+
+This is similar to the dot product focus above, but is instead focused on the outer product.
+******* Column perspective
+If we have AB = C, then every column in C is a weighted sum of the columns in A, and the weights come from the columns of B.
+******* Row perspective
+If we have AB = C, then every row in C is a weighted sum of the rows in B, and the weights come from the rows in A.
+***** Shifting
+Shifting a matrix means adding a (often small) scalar to its diagonal elements. This can transform a rank-deficient matrix into a full-rank matrix.
 ** Concepts
 *** Vector space / linear space
 A vector space is any set of objects for which addition and scalar multiplication are defined and follow these rules:
@@ -139,6 +252,10 @@ A basis for a subspace is a set of vectors that are linearly independent and can
 There are infinitely many sets of basis vectors for any space, except the 0 space. Any linearly independent set of vectors is a basis of the space they span.
 
 If the set of basis vectors were not linearly independent, the the coordinates of any point in the space would be unclear. That is, there would be multiple combinations of basis vectors that could result in the same vector.
+*** Diagonal / trace
+The diagonal of a matrix is a vector containing the elements on the diagonal of the matrix.
+
+The trace of a matrix is the sum of all elements on its diagonal and anti-diagonal. A trace is only defined for square matrices.
 * Books
 ** Linear Algebra: Theory Intuition Code by Mike X Cohen
 *** Reading Log
