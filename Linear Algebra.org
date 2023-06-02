@@ -200,8 +200,51 @@ This is similar to the dot product focus above, but is instead focused on the ou
 If we have AB = C, then every column in C is a weighted sum of the columns in A, and the weights come from the columns of B.
 ******* Row perspective
 If we have AB = C, then every row in C is a weighted sum of the rows in B, and the weights come from the rows in A.
+***** Matrix division
+Matrix division doesn't exist. The closest thing is a matrix inverse.
+***** Frobenius dot product
+Flatten both matrices into a vector and take their dot product.
+
+Written:
+
+$$ \langle \mathbf{A}, \mathbf{B} \rangle_\text{F} $$
+
+It is equal to the trace of A transpose B:
+
+\begin{equation*}
+\langle \mathbf{A}, \mathbf{B} \rangle_\text{F} =
+\text{tr}( \mathbf{A}^\text{T} \mathbf{B} )
+\end{equation*}
+
+Remember, the trace is the sum of the diagonal and anti-diagonal.
+***** Matrix norms
+There are many ways interpreting and measuring a matrix norm, here are a few ways:
+
+Sum the square of all elements in the matrix, and take the square root of that. This is called the Frobenius norm or L2 norm.
+
+(It is called the L2 norm, because you raise each element to the power of 2, sum them, and then raise the result to 1/2 (aka, the square root). There are other norms, L1 norm, L3 norm, etc.)
+***** Euclidean distance between two matrices
+Perform element-wise subtractions between the elements of two matrices, this gives a difference. Square the element-wise differences, sum them, and then take the square root. This is the Euclidean distance between the two matrices.
 ***** Shifting
 Shifting a matrix means adding a (often small) scalar to its diagonal elements. This can transform a rank-deficient matrix into a full-rank matrix.
+***** Distributing transpositions
+\begin{equation*}
+( \mathbf{AB} )^\text{T} =
+( \mathbf{B}^\text{T} \mathbf{A}^\text{T} )
+\end{equation*}
+***** Making symmetric
+****** Additive
+If the matrix A is square, it can be made symmetric by:
+
+(1 / 2) (A^T + A)
+****** Multiplicative
+Any matrix A can be made symmetric by:
+
+$$ \mathbf{A}^\text{T} \mathbf{A} $$
+
+- or -
+
+$$ \mathbf{AA}^\text{T} $$
 ** Concepts
 *** Vector space / linear space
 A vector space is any set of objects for which addition and scalar multiplication are defined and follow these rules:
@@ -256,7 +299,23 @@ If the set of basis vectors were not linearly independent, the the coordinates o
 The diagonal of a matrix is a vector containing the elements on the diagonal of the matrix.
 
 The trace of a matrix is the sum of all elements on its diagonal and anti-diagonal. A trace is only defined for square matrices.
+*** Matrix asymmetry index
+Every square matrix can be formed by adding a symmetric matrix and a skew-symmetric matrix. Remember, skew-symmetric means symmetric but with opposite signs.
+
+An asymmetry index can be found by dividing the skew-symmetric L2 norm (the non-symmetric part) by the original matrix norm (the full matrix).
+
+Let's say A is our original matrix, and K is the skew-symmetric "layer" of it. Their relationship is:
+
+\begin{equation*}
+\mathbf{K} =
+( \mathbf{A} - \mathbf{A}^\text{T} ) / 2
+\end{equation*}
+
+\begin{equation*}
+\mathbf{A}_{\text{symmetric}} = A - K
+\end{equation*}
 * Books
 ** Linear Algebra: Theory Intuition Code by Mike X Cohen
 *** Reading Log
 <2023-05-25> Finished Chapter 3
+<2023-05-31> Finished Chapter 6

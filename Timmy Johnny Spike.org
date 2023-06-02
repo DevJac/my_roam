@@ -1,0 +1,24 @@
+:PROPERTIES:
+:ID:       88DBBE1E-A445-4FE4-B963-2611BF9F41F7
+:END:
+#+title: Timmy / Johnny / Spike
+* Timmy
+Timmy is what we in R&D call the "power gamer." Timmy likes to win big. He doesn’t want to eke out a last minute victory. Timmy wants to smash his opponents. He likes his cards to be impressive, and he enjoys playing big creatures and big spells.
+
+One of the misconceptions is that Timmy has to be young. While its true that younger players are more apt to fall into this category, players of any age can be a Timmy. What sets Timmy apart from the other two profiles is that Timmy is motivated by fun. He plays Magic because it’s enjoyable. Timmy is very social. An important part of the game is sitting around with his friends.
+
+Timmy cares more about the quality of his win than the quantity of his wins. For example, Timmy sits down and plays ten games. He only wins three games out of ten but the three he wins, he dominates his opponent. Timmy had fun. Timmy walks away happy.
+* Johnny
+Johnny was the second profile to get a name. During Urza’s Saga development, R&D had accepted the Timmy and "tournament player" profiles, but I believed that there was an important profile missing. You see, I wasn’t really a Timmy player and I wasn’t really a tournament player. I was this missing third type. While trying to explain who he was, I stumbled into calling him "Johnny." Like Timmy, the name stuck.
+
+Johnny is the creative gamer to whom Magic is a form of self-expression. Johnny likes to win, but he wants to win with style. It’s very important to Johnny that he win on his own terms. As such, it’s important to Johnny that he’s using his own deck. Playing Magic is an opportunity for Johnny to show off his creativity.
+
+Johnny likes a challenge. Johnny enjoys winning with cards that no one else wants to use. He likes making decks that win in innovative ways. What sets Johnny apart from the other profiles is that Johnny enjoys deckbuilding as much as (or more than) he enjoys playing. Johnny loves the cool interactions of the cards. He loves combo decks. Johnny is happiest when he’s exploring uncharted territory.
+
+Like Timmy, Johnny cares more about the quality of his wins than the quantity. For example, let's say Johnny builds a new deck that has a neat but difficult way to win. He plays ten games and manages to get his deck to do its thing… once. Johnny walks away happy.
+* Spike
+Spike is the competitive player. Spike plays to win. Spike enjoys winning. To accomplish this, Spike will play whatever the best deck is. Spike will copy decks off the Internet. Spike will borrow other players’ decks. To Spike, the thrill of Magic is the adrenalin rush of competition. Spike enjoys the stimulation of outplaying the opponent and the glory of victory.
+
+Spike cares more about the quantity of wins than the quality. For example, Spike plays ten games and wins nine of them. If Spike feels he should have won the tenth, he walks away unhappy.
+* Source
+https://magic.wizards.com/en/news/making-magic/timmy-johnny-and-spike-2013-12-03
