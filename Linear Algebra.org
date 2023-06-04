@@ -198,8 +198,14 @@ Thus, matrix multiplication is the sum of many outer products.
 This is similar to the dot product focus above, but is instead focused on the outer product.
 ******* Column perspective
 If we have AB = C, then every column in C is a weighted sum of the columns in A, and the weights come from the columns of B.
+
+Remember that the inner dimensions of the matrix multiplication must match: (rows x columns) x (rows x columns). We know that the column count of A matches the row count of B. The row count is the number of items in each column. So we know that the column count of the first matrix matches the column length of the second matrix.
+
+The matrix sizes can be thought of as: (column length x column count) x (column length x column count). Necessarily, the column containing the "weights" must have a length equal to the number of columns we are taking a weighted sum of.
 ******* Row perspective
 If we have AB = C, then every row in C is a weighted sum of the rows in B, and the weights come from the rows in A.
+
+The matrix sizes can be thought of as: (row count x row length) x (row count x row length). Necessarily, the row containing the "weights" must have a length equal to the number of rows we are taking a weighted sum of.
 ***** Matrix division
 Matrix division doesn't exist. The closest thing is a matrix inverse.
 ***** Frobenius dot product
@@ -245,6 +251,49 @@ $$ \mathbf{A}^\text{T} \mathbf{A} $$
 - or -
 
 $$ \mathbf{AA}^\text{T} $$
+***** Matrix asymmetry index
+Every square matrix can be formed by adding a symmetric matrix and a skew-symmetric matrix. Remember, skew-symmetric means symmetric but with opposite signs.
+
+An asymmetry index can be found by dividing the skew-symmetric L2 norm (the non-symmetric part) by the original matrix norm (the full matrix).
+
+Let's say A is our original matrix, and K is the skew-symmetric "layer" of it. Their relationship is:
+
+\begin{equation*}
+\mathbf{K} =
+( \mathbf{A} - \mathbf{A}^\text{T} ) / 2
+\end{equation*}
+
+\begin{equation*}
+\mathbf{A}_{\text{symmetric}} = A - K
+\end{equation*}
+***** Rank
+Rank is an integer indicating the number of dimensions of information contained in the matrix. It is the number of linearly independent vectors in the matrix (either rows or columns). It is the number of dimensions spanned by the rows or columns of the matrix. For a M x N size matrix, the maximum possible rank is the smaller of M or N.
+****** Operation effect on rank
+******* Scalar multiplication
+Scalar multiplication cannot change the rank, because stretching the vectors will change change the dimension of their span.
+******* Addition
+If we have two matrices, A and B:
+
+rank(A + B) <= rank(A) + rank(B)
+
+The result, of course, still has a maximum rank limited by its size: two full-rank 3x3's cannot create a 3x3 rank 6.
+******* Matrix multiplication
+If we have two matrices, A and B:
+
+rank(AB) <= min(rank(A), rank(B))
+
+The result, of course, still has a maximum rank limited by its size.
+******* Transposition
+\begin{equation*}
+\text{rank}(\mathbf{A}) =
+\text{rank}(\mathbf{A}^\text{T}) =
+\text{rank}(\mathbf{A}^\text{T}\mathbf{A}) =
+\text{rank}(\mathbf{AA}^\text{T})
+\end{equation*}
+***** Diagonal / trace
+The diagonal of a matrix is a vector containing the elements on the diagonal of the matrix.
+
+The trace of a matrix is the sum of all elements on its diagonal and anti-diagonal. A trace is only defined for square matrices.
 ** Concepts
 *** Vector space / linear space
 A vector space is any set of objects for which addition and scalar multiplication are defined and follow these rules:
@@ -295,25 +344,6 @@ A basis for a subspace is a set of vectors that are linearly independent and can
 There are infinitely many sets of basis vectors for any space, except the 0 space. Any linearly independent set of vectors is a basis of the space they span.
 
 If the set of basis vectors were not linearly independent, the the coordinates of any point in the space would be unclear. That is, there would be multiple combinations of basis vectors that could result in the same vector.
-*** Diagonal / trace
-The diagonal of a matrix is a vector containing the elements on the diagonal of the matrix.
-
-The trace of a matrix is the sum of all elements on its diagonal and anti-diagonal. A trace is only defined for square matrices.
-*** Matrix asymmetry index
-Every square matrix can be formed by adding a symmetric matrix and a skew-symmetric matrix. Remember, skew-symmetric means symmetric but with opposite signs.
-
-An asymmetry index can be found by dividing the skew-symmetric L2 norm (the non-symmetric part) by the original matrix norm (the full matrix).
-
-Let's say A is our original matrix, and K is the skew-symmetric "layer" of it. Their relationship is:
-
-\begin{equation*}
-\mathbf{K} =
-( \mathbf{A} - \mathbf{A}^\text{T} ) / 2
-\end{equation*}
-
-\begin{equation*}
-\mathbf{A}_{\text{symmetric}} = A - K
-\end{equation*}
 * Books
 ** Linear Algebra: Theory Intuition Code by Mike X Cohen
 *** Reading Log
