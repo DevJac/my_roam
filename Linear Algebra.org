@@ -2,6 +2,10 @@
 :ID:       0678CF24-88E4-4014-AC51-1316BF707906
 :END:
 #+title: Linear Algebra
+* Linear Algebra is Our Most Reliable Tool
+A fundamental aspect of linear algebra (that no one ever taught me in a class) is that non-linear problems are almost never analytically solvable (e.g. e^x= y is easily solved through logarithms, but even solving xe^x=y requires Lambert’s W function). Almost all interesting real world problems are non-linear to some extent, therefore, linear algebra is really the only tool we have to make progress on many difficult problems (e.g. through linear approximation and then applying techniques of linear algebra to solve the linear problem).
+
+-- https://news.ycombinator.com/item?id=30870705
 * Linear Algebra
 ** Types
 *** Scalars
@@ -94,6 +98,8 @@ Can be used to find a vector orthogonal to a plane.
 A M x N matrix has M rows and N columns.
 
 It's common to use "M x N" and rows comes before columns in the size: rows x column.
+
+The size can also be viewed as either: (column length x column count) or (row count x row length).
 **** Special matrices
 ***** Square / non-square
 A square matrix has the same number of rows and columns.
@@ -134,7 +140,7 @@ All columns are orthogonal with every other column (their dot product is 0, 90 d
 ***** Toeplitz / Hankel
 In a Toeplitz matrix each row is a "rotation" of the row above.
 
-#+begin_src 
+#+begin_src
 [[a, b, c, d],
  [d, a, b, c],
  [c, d, a, b],
@@ -143,7 +149,7 @@ In a Toeplitz matrix each row is a "rotation" of the row above.
 
 A Hankel matrix rotates the other way. And may contain zeros in the lower right triangle.
 
-#+begin_src 
+#+begin_src
 [[a, b, c, d],
  [b, c, d, 0],
  [c, d, 0, 0],
@@ -267,7 +273,17 @@ Let's say A is our original matrix, and K is the skew-symmetric "layer" of it. T
 \mathbf{A}_{\text{symmetric}} = A - K
 \end{equation*}
 ***** Rank
-Rank is an integer indicating the number of dimensions of information contained in the matrix. It is the number of linearly independent vectors in the matrix (either rows or columns). It is the number of dimensions spanned by the rows or columns of the matrix. For a M x N size matrix, the maximum possible rank is the smaller of M or N.
+Rank is an integer indicating the number of dimensions of information contained in the matrix. Rank is a property of the matrix, regardless of application or how the matrix is interpreted.
+
+Rank is the number of linearly independent vectors in the matrix (either rows or columns). It is the number of dimensions spanned by the rows or columns of the matrix.
+
+For a M x N size matrix, the maximum possible rank is the smaller of M or N:
+
+\begin{equation*}
+rank_{max}(\mathbf{A}_{\text{M} \times \text{N}}) = min(\text{M}, \text{N})
+\end{equation*}
+
+"Full-column-rank" means that the rank equals the number of columns. Each of the columns is linearly independent. "Full-row-rank" similarly applies to rows.
 ****** Operation effect on rank
 ******* Scalar multiplication
 Scalar multiplication cannot change the rank, because stretching the vectors will change change the dimension of their span.
@@ -285,10 +301,10 @@ rank(AB) <= min(rank(A), rank(B))
 The result, of course, still has a maximum rank limited by its size.
 ******* Transposition
 \begin{equation*}
-\text{rank}(\mathbf{A}) =
-\text{rank}(\mathbf{A}^\text{T}) =
-\text{rank}(\mathbf{A}^\text{T}\mathbf{A}) =
-\text{rank}(\mathbf{AA}^\text{T})
+rank(\mathbf{A}) =
+rank(\mathbf{A}^\text{T}) =
+rank(\mathbf{A}^\text{T}\mathbf{A}) =
+rank(\mathbf{AA}^\text{T})
 \end{equation*}
 ***** Diagonal / trace
 The diagonal of a matrix is a vector containing the elements on the diagonal of the matrix.
@@ -344,6 +360,71 @@ A basis for a subspace is a set of vectors that are linearly independent and can
 There are infinitely many sets of basis vectors for any space, except the 0 space. Any linearly independent set of vectors is a basis of the space they span.
 
 If the set of basis vectors were not linearly independent, the the coordinates of any point in the space would be unclear. That is, there would be multiple combinations of basis vectors that could result in the same vector.
+*** Column space / row space
+The column space of a matrix is the space spanned by its columns. In Ax = y, y is in the column space of A.
+
+The notation for column space is C(A). The following is an example of notation and a true statement about the column space:
+
+$$ C(\textbf{A}) = C(\textbf{AA}^\text{T}) $$
+
+Remember: rank(A) = rank(A') = rank(A'A) = rank(AA') where A' is A transpose (the ' is transpose).
+**** Is v in C(A)?
+Is vector v in the column space of A?
+
+To find out, augment A with the column v (concat vector v onto matrix A), then compare the matrix rank with and without v. If the rank is the same then v must be in the column space of A, because if v were outside the column space of A, then adding it to A would increase the rank.
+
+If A is full-rank, then we can answer this question without knowing v, because A spans the entire ambient space.
+**** Row space
+The row space of A is denoted R(A).
+
+$$ R(\mathbf{A}) = R(\mathbf{A}^\text{T} \mathbf{A}) $$
+
+Row space is very similar, except the order of operands may have to change. For example, instead of Ax = y, we might have xA = y (y would be in the row space).
+**** Dimensionality reduction
+C(A) = C(AA') and R(A) = R(A'A)
+
+AA' or A'A may have fewer dimensions but still span the same column or row space, and thus can be used for dimensionality reduction.
+*** Null space
+The null-space of a matrix is indicated N(A). It is the subspace containing all vectors v that satisfy Av = 0.
+
+The vectors in the null-space, if multiplied by A, will become zero.
+
+The null-space is a property of matrix A, it is the subspace of vectors that A will "crush" if we multiply by A.
+
+Solutions for v in Av = 0 are the "right null-space", because v is to the right. There is also a "left null-space", a subspace of solutions for vA = 0.
+
+In Ax = y, y is in the column space. However, x in not in the column space because it has a different dimension (length) than the columns.
+
+\begin{equation*}
+C(\mathbf{A}) \cup
+N(\mathbf{A}^\text{T})
+\text{ spans } \mathbb{R}^M
+\end{equation*}
+
+\begin{equation*}
+R(\mathbf{A}) \cup
+N(\mathbf{A})
+\text{ spans } \mathbb{R}^N
+\end{equation*}
+
+N(A) is the "null space", or "right null space", N(A') is the "left null space". (The ' denotes transposition.)
+
+dim(C(A)) + dim(N(A')) = M
+
+dim(R(A)) + dim(N(A)) = N
+
+And remember: rank(A) = dim(C(A)) = dim(R(A))
+*** Orthogonal vectors / subspaces
+**** Orthogonal vectors
+Two vectors are orthogonal if they meet at a 90 degree angle.
+**** Orthogonal subspaces
+Two subspaces are orthogonal if every vector in subspace A is orthogonal to every vector in subspace B.
+
+The notation is:
+
+$$ \textbf{A} \perp \textbf{B} $$
+
+The two subspaces must share the same ambient space, because the length of vectors in both spaces must be equal.
 * Books
 ** Linear Algebra: Theory Intuition Code by Mike X Cohen
 *** Reading Log
