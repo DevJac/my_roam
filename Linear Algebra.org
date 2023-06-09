@@ -238,7 +238,7 @@ Sum the square of all elements in the matrix, and take the square root of that. 
 ***** Euclidean distance between two matrices
 Perform element-wise subtractions between the elements of two matrices, this gives a difference. Square the element-wise differences, sum them, and then take the square root. This is the Euclidean distance between the two matrices.
 ***** Shifting
-Shifting a matrix means adding a (often small) scalar to its diagonal elements. This can transform a rank-deficient matrix into a full-rank matrix.
+Shifting a matrix means adding a (often small) scalar to its diagonal elements. This can transform a rank-deficit matrix into a full-rank matrix.
 ***** Distributing transpositions
 \begin{equation*}
 ( \mathbf{AB} )^\text{T} =
@@ -272,7 +272,11 @@ Let's say A is our original matrix, and K is the skew-symmetric "layer" of it. T
 \begin{equation*}
 \mathbf{A}_{\text{symmetric}} = A - K
 \end{equation*}
-***** Rank
+***** Diagonal / trace
+The diagonal of a matrix is a vector containing the elements on the diagonal of the matrix.
+
+The trace of a matrix is the sum of all elements on its diagonal and anti-diagonal. A trace is only defined for square matrices.
+**** Rank
 Rank is an integer indicating the number of dimensions of information contained in the matrix. Rank is a property of the matrix, regardless of application or how the matrix is interpreted.
 
 Rank is the number of linearly independent vectors in the matrix (either rows or columns). It is the number of dimensions spanned by the rows or columns of the matrix.
@@ -280,36 +284,82 @@ Rank is the number of linearly independent vectors in the matrix (either rows or
 For a M x N size matrix, the maximum possible rank is the smaller of M or N:
 
 \begin{equation*}
-rank_{max}(\mathbf{A}_{\text{M} \times \text{N}}) = min(\text{M}, \text{N})
+  rank_{max}(\mathbf{A}_{\text{M} \times \text{N}}) = min(\text{M}, \text{N})
 \end{equation*}
 
+A "full-rank" matrix has the maximum possible rank for its shape. A "rank-deficit" matrix the opposite, having less than the maximum rank for its shape. A "singular" matrix is a square and rank-deficit matrix.
+
 "Full-column-rank" means that the rank equals the number of columns. Each of the columns is linearly independent. "Full-row-rank" similarly applies to rows.
-****** Operation effect on rank
-******* Scalar multiplication
+***** Operation effect on rank
+****** Scalar multiplication
 Scalar multiplication cannot change the rank, because stretching the vectors will change change the dimension of their span.
-******* Addition
+****** Addition
 If we have two matrices, A and B:
 
 rank(A + B) <= rank(A) + rank(B)
 
 The result, of course, still has a maximum rank limited by its size: two full-rank 3x3's cannot create a 3x3 rank 6.
-******* Matrix multiplication
+****** Matrix multiplication
 If we have two matrices, A and B:
 
 rank(AB) <= min(rank(A), rank(B))
 
 The result, of course, still has a maximum rank limited by its size.
-******* Transposition
+****** Transposition
 \begin{equation*}
 rank(\mathbf{A}) =
 rank(\mathbf{A}^\text{T}) =
 rank(\mathbf{A}^\text{T}\mathbf{A}) =
 rank(\mathbf{AA}^\text{T})
 \end{equation*}
-***** Diagonal / trace
-The diagonal of a matrix is a vector containing the elements on the diagonal of the matrix.
+*** Complex numbers
+Complex numbers have a real and an imaginary component. They are written 1+2i or 3-4j.
 
-The trace of a matrix is the sum of all elements on its diagonal and anti-diagonal. A trace is only defined for square matrices.
+0+1i = i = sqrt(-1)
+i^2 = -1
+**** Conjugate
+The conjugate of a complex number negates (flips) the imaginary component. It is indicated by a bar or superscript asterisk:
+
+$$ \text{z} = \text{a} + \text{b}i $$
+
+$$ \bar{\text{z}} = \text{z}^* = \text{a} - \text{b}i $$
+**** Addition / subtraction
+These work as expected. Add the real parts together, add the imaginary parts together.
+**** Multiplication
+Multiplication is more complicated. We have to "FOIL" the two operands:
+
+(a + bi)(c + di)
+(ac + adi + bic + bidi)
+(ac + adi + bci + bdi^2)
+Remember i^2 = -1, thus:
+(ac + adi + bci - bd)
+(ac - bd + adi + bci)
+(ac - bd) + (ad + bc)i
+**** Division
+Division is even more complicated:
+
+\begin{align*}
+\frac{ z }{ w } &=
+\frac{ \text{a} + \text{b}i }{ \text{c} + \text{d}i } \\ &=
+\frac{ (\text{c} - \text{d}i)(\text{a} + \text{b}i) }{ (\text{c} - \text{d}i)(\text{c} + \text{d}i) } \\ &=
+\frac{ (\text{c} - \text{d}i)(\text{a} + \text{b}i) }{ \text{c}^2 - \text{d}^2 i^2 } \\ &=
+\frac{ (\text{c} - \text{d}i)(\text{a} + \text{b}i) }{ \text{c}^2 + \text{d}^2 } \\ &=
+\frac{ (\text{ac} + \text{bc}i - \text{ad}i - \text{bd}i^2) }{ \text{c}^2 + \text{d}^2 } \\ &=
+\frac{ (\text{ac} + \text{bc}i - \text{ad}i + \text{bd}) }{ \text{c}^2 + \text{d}^2 } \\ &=
+\frac{ (\text{ac} + \text{bd}) + (\text{bc} - \text{ad})i }{ \text{c}^2 + \text{d}^2 }
+\end{align*}
+
+Remember i^2 = -1.
+
+Notice the denominator becomes real valued.
+**** Hermitian transpose, dot product, matrix
+The Hermitian transpose transposes the matrix, and also replaces all complex numbers with their conjugate.
+
+It is denoted z^H instead of z^T.
+
+A Hermitian dot product is (z^H)w instead of (z^T)w.
+
+A Hermitian matrix satisfies the equation A = A^H.
 ** Concepts
 *** Vector space / linear space
 A vector space is any set of objects for which addition and scalar multiplication are defined and follow these rules:
@@ -425,8 +475,118 @@ The notation is:
 $$ \textbf{A} \perp \textbf{B} $$
 
 The two subspaces must share the same ambient space, because the length of vectors in both spaces must be equal.
+*** Ax = b and Ay = 0
+These two equations are simple yet profound. It is no understatement to say that:
+
+Most people learn linear algebra because they want to know how to solve these equations.
+**** Ax = b
+***** Does it have a solution?
+Is b in the column space of A? If so, then there is a solution.
+***** If not, then what is the closest approximation to an exact solution?
+For this, we look for a new b that is as close as possible to the original b, and is in the column space of A.
+**** Ay = 0
+We are especially interested in a shifted version of A:
+
+$$ (\mathbf{A} - \lambda\mathbf{I})y = 0 $$
+
+This is related to eigenvectors and eigenvalues.
+*** Systems of equations
+Systems of equations can be represented as a matrix. A system of equations may have zero, one, or infinite solutions.
+**** Converting a system of equations to matrices
+\begin{align*}
+\left
+\begin{cases}
+  3x + 4y &= 5 \\
+  2x - y &= 0
+\end{cases}
+\right\}
+\end{align*}
+
+The above system of equations can be expressed using matrix multiplication:
+
+\begin{equation*}
+\begin{bmatrix}
+  3 & 4 \\
+  2 & -1
+\end{bmatrix}
+\begin{bmatrix}
+  x \\
+  y
+\end{bmatrix}
+=
+\begin{bmatrix}
+  5 \\
+  0
+\end{bmatrix}
+\end{equation*}
+**** Row reduction
+We can do several things to the rows (or columns) of a matrix:
+
+1. Scale rows
+2. Reorder rows
+3. Add multiples of other rows
+
+All of these are reversible operations.
+
+These linear transformations can be expressed as a series of matrix multiplications.
+
+\begin{equation*}
+  \mathbf{A} =
+  \mathbf{R}_N
+  \mathbf{R}_{...}
+  \mathbf{R}_2
+  \mathbf{R}_1
+  \mathbf{B}
+\end{equation*}
+
+Either A or B may be viewed as the original matrix. The point is that there is a series of transformations required to go from A to B.
+
+Atomic row reduction operations may be expressed as elementary matrices. Elementary matrices are invertible. The product of several elementary matrices is invertible. In A = RB, if R is invertible, then R(A) = R(B).
+
+Row reduction does not change the rank of the matrix (the dimensions of the row space and column space do not change). Row reduction does not change the row space, but it may change the column space.
+**** Echelon form / reduced row echelon form
+If the lower left triangle is 0, then the matrix is in echelon form. The first non-zero value of each row must be further and further to the right.
+
+Reduced row echelon form goes further and manipulates the matrix until all pivots are 1 and are the only non-zero value in their column. Columns without pivots may have several non-zero values.
+***** Computing echelon form / reduced row echelon form
+There are an infinite number of possible echelon forms. One form can be found by the "LU" decomposition. Python and Julia have a ~lu~ function for this.
+
+In Julia the rref of the RowEchelon package can computer the reduced row echelon form. The algorithm to do so is sensitive, so be careful. In Python, you must use SymPy.
+***** Pivots
+When a matrix is in echelon form, the pivots are the first non-zero values of each row.
+
+The number of pivots is the rank of the matrix.
+***** Interpreting reduced row echelon form
+****** No solutions
+\begin{equation*}
+\begin{bmatrix}
+  1 & -2 & 0 \\
+  0 &  0 & 1
+\end{bmatrix}
+\end{equation*}
+
+This reduced row echelon form indicates that there are no solutions to the corresponding system of equations. The last line is equivalent to 0 = 1, which has no solution.
+****** One solution
+\begin{equation*}
+\begin{bmatrix}
+  1 & 0 & 2 \\
+  0 & 1 & 3
+\end{bmatrix}
+\end{equation*}
+
+This indicates that x = 2 and y = 3.
+****** Many solutions
+\begin{equation*}
+\begin{bmatrix}
+  1 & 2 & 4 \\
+  0 & 0 & 0
+\end{bmatrix}
+\end{equation*}
+
+This indicates that there are infinite many solutions. The first line is the only meaningful equations: x = 2y + 4.
 * Books
 ** Linear Algebra: Theory Intuition Code by Mike X Cohen
 *** Reading Log
 <2023-05-25> Finished Chapter 3
 <2023-05-31> Finished Chapter 6
+<2023-06-08> Finished Chapter 9
