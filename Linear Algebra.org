@@ -187,13 +187,13 @@ Matrix multipliation is not commutative: A times B does not equal B times A.
 
 An A x B matrix multipled by a C x D matrix results in a A x D matrix, and B and C must be equal.
 ****** 4 perspectives on matrix multiplication
-[[./images/matrix_multiplication_perspectives.png]]
+[[./images/Linear Algebra/matrix_multiplication_perspectives.png]]
 ******* Element perspective (dot product focused)
 If we have AB = C, every element of C is the dot product of the corresponding row of A and column of B. In other words, the resulting matrix contains every possible dot product between rows of A and columns of B.
 
 If we have A x B times B x C, then we know the result will be A x C. A represents rows, C represents columns, we know this because of their position in the matrix shape notation. Knowing this, we know that the row count of the result comes from the first matrix and the column count comes from the second.
 
-[[./images/matrix_multiplication.png]]
+[[./images/Linear Algebra/matrix_multiplication.png]]
 ******* Layer perspective (outer product focused)
 If we have AB = C, then C is the sum of every outer product of the corresponding columns in A and rows in B.
 
@@ -238,7 +238,7 @@ Sum the square of all elements in the matrix, and take the square root of that. 
 ***** Euclidean distance between two matrices
 Perform element-wise subtractions between the elements of two matrices, this gives a difference. Square the element-wise differences, sum them, and then take the square root. This is the Euclidean distance between the two matrices.
 ***** Shifting
-Shifting a matrix means adding a (often small) scalar to its diagonal elements. This can transform a rank-deficit matrix into a full-rank matrix.
+Shifting a matrix means adding a (often small) scalar to its diagonal elements. This can transform a rank-deficient matrix into a full-rank matrix.
 ***** Distributing transpositions
 \begin{equation*}
 ( \mathbf{AB} )^\text{T} =
@@ -287,7 +287,7 @@ For a M x N size matrix, the maximum possible rank is the smaller of M or N:
   rank_{max}(\mathbf{A}_{\text{M} \times \text{N}}) = min(\text{M}, \text{N})
 \end{equation*}
 
-A "full-rank" matrix has the maximum possible rank for its shape. A "rank-deficit" matrix the opposite, having less than the maximum rank for its shape. A "singular" matrix is a square and rank-deficit matrix.
+A "full-rank" matrix has the maximum possible rank for its shape. A "rank-deficient" (or "reduced-rank") matrix the opposite, having less than the maximum rank for its shape. A "singular" matrix is a square and rank-deficient matrix.
 
 "Full-column-rank" means that the rank equals the number of columns. Each of the columns is linearly independent. "Full-row-rank" similarly applies to rows.
 ***** Operation effect on rank
@@ -312,6 +312,170 @@ rank(\mathbf{A}^\text{T}) =
 rank(\mathbf{A}^\text{T}\mathbf{A}) =
 rank(\mathbf{AA}^\text{T})
 \end{equation*}
+**** Determinant
+Things to know about determinants:
+
+1. Only square matrices have a determinant
+2. The determinant is a single scalar value
+3. Each matrix has only one determinant
+4. The determinant is zero for rank-deficient / singular matrices, thus any linear dependencies between rows or columns will result in a 0 determinant
+
+Notation:
+
+\begin{equation*}
+  \det(\mathbf{A}) = |A| =
+  \begin{vmatrix}
+    1 & 2 \\
+    3 & 4
+  \end{vmatrix}
+\end{equation*}
+
+Transpose does not affect the determinant:
+
+$$ \det(\mathbf{A}) = \det(\mathbf{A}^\text{T}) $$
+
+Computing the determinant is hard. The effort required grows exponentially as the matrix does.
+***** Computing the determinant
+The general method for computing the determinant is demonstrated in this image:
+
+[[./images/Linear Algebra/determinant_computation.png]]
+
+The determinant of a triangular matrix (all zeros in the upper-right, or lower-left triangle) is simply the product of its diagonal. It's often easier to transform a matrix into echelon form and then simply take the product of the diagonal. But in doing so, you must keep track of the elementary matrices for the row reductions you perform.
+
+If we have:
+
+\begin{equation*}
+  \mathbf{A} =
+  \mathbf{R}_N
+  \mathbf{R}_{...}
+  \mathbf{R}_2
+  \mathbf{R}_1
+  \mathbf{B}
+\end{equation*}
+
+then det(A) is the product of all determinants for all R and B:
+
+\begin{equation*}
+  \det(\mathbf{A}) =
+  \det(\mathbf{R}_N)
+  \det(\mathbf{R}_{...})
+  \det(\mathbf{R}_2)
+  \det(\mathbf{R}_1)
+  \det(\mathbf{B})
+\end{equation*}
+
+Thus, we can decompose a matrix into a triangular matrix (e.g., echelon form) and then compute the product of many trivial determinants.
+
+Remember that det(AB) = det(A) det(B).
+
+When decomposing a matrix to echelon form, if we discover that it is singular (the rows or columns are linearly dependent), then we know the determinant is zero.
+
+In general, any changes to a matrix change the determinant. The easiest way to track these changes is with simple elementary matrices.
+****** Specific effects of elementary row operations
+- Swapping rows negates ("flips") the determinant.
+- Adding or subtracting another row has no effect.
+- Scaling a row scales the entire determinant.
+- Matrix scalar multiplication is like scaling every row and has a compounded effect based on the number of rows (or columns, since the matrix must be square).
+***** Triangular matrices
+Triangular matrices have all zeros in their upper or lower triangle. (That is, upper-right or lower-left triangle.) The determinant of these matrices is the product of their diagonal.
+**** Inverse
+If AB = I, then B is the inverse of A.
+
+\begin{equation*}
+  \mathbf{AA}^{-1} = \mathbf{I}
+\end{equation*}
+
+To solve Ax = b using the inverse matrix:
+
+\begin{align*}
+  \mathbf{A}\text{x} &= \text{b} \\
+  \mathbf{A}^{-1}\mathbf{A}\text{x} &= \mathbf{A}^{-1}\text{b} \\
+  \mathbf{I}\text{x} &= \mathbf{A}^{-1}\text{b} \\
+  \text{x} &= \mathbf{A}^{-1}\text{b}
+\end{align*}
+
+The inverse is, of course, invertible:
+
+$$ (\mathbf{A}^{-1})^{-1} = \mathbf{A} $$
+
+The order of inverting and transposing do not matter:
+
+invert(transpose(A)) = transpose(invert(A))
+
+The inverse of a symmetric matrix is also symmetric.
+
+The inverse of a matrix is unique, there is only one.
+
+Computing a matrix inverse is numerically unstable and care must be taken when doing so on a computer. It is best to avoid computing with matrix inverses if possible.
+***** Matrices with a null space have no inverse
+The null space of a matrix is the vectors that it "crunches" down to zero. Crunching several different vectors into a single zero value destroys information. That information cannot be recovered.
+
+Thus, any matrix that has a null space does not have an inverse.
+***** Computing inverse with MCA
+The inverse of A is:
+
+(1 / det(A)) * adjugate(A)
+****** Minor matrix
+The minor matrix is a matrix of minors. Each element is replaced with its minor. The minor of an element is the determinant of the matrix that remains after removing the row and column containing that element.
+****** Cofactor matrix
+The minor matrix is element-wise-multiplied by a checkerboard matrix of +1's and -1's, with +1's along the diagonal; this produces the cofactor matrix, or rather a matrix of cofactors.
+****** Adjugate matrix (aka, adjoint matrix)
+The adjugate matrix is the transpose of the cofactor matrix.
+***** Computing inverse with row reduction
+To find the inverse of A, augment A with I, and then reduce to reduced row echelon form.
+
+\begin{equation*}
+  rref([\ \mathbf{A}\ |\ \mathbf{I}\ ]) =
+  [\ \mathbf{I}\ |\ \mathbf{A}^{-1}\ ]
+\end{equation*}
+
+If you cannot reduce the augmented matrix to RREF form, then it does not have an inverse.
+
+We use row reduction to solve systems of equations and Ax = b, this is similar. In this case we are solving AX = I.
+***** Left / right inverse
+If Ax = y, and A is rectangular, then x is transformed into a different dimension and becomes y.
+
+A might have a left-inverse, a left-inverse is the only possible inverse it may have (given it's rectangular). I can remember it might have a left-inverse (rather than a right-inverse) because only the left side is free to attach an inverse to. I cannot attach the inverse to x. I cannot rearrange A and x because matrix multiplication is not commutative (AB does not equal BA). If an inverse exists at all, it must exist on the left.
+
+It is not guaranteed that a rectangular matrix has a left or right inverse. It must be either full-row-rank or full-column-rank.
+****** Why full rank is necessary for a one-sided inverse
+A rank-deficient 3 x 2 matrix is a good example of why full-rank is necessary for rectangular matrices to have a one-sided inverse.
+
+A rank-deficient 3 x 2 matrix must have a rank of 1 (or maybe 0). Let's say A is a 3 x 2 in the following examples.
+
+In xA = y, A is transforming 3D x into 2D y. This will never be reversible.
+
+In Ax = y, A is transforming 2D x into 3D y. This could be reversible as long as A doesn't crunch the 2 dimensions of x. Because x is 2D, A needs at least 2 linearly independent column basis vectors to preserve the dimensions of x. Yet A does not, A is rank-deficient, which means it does not have the full-column-rank required to preserve the dimensions of x. A is going to crunch the dimensions of x in an irreversible way. Thus, rank-deficient matrices cannot have even a one-sided inverse. Their failure to have full-rank means they cannot preserve all the dimensions they will be transforming.
+****** Left inverse
+The left inverse of A is:
+
+\begin{equation*}
+  ( \mathbf{A}^\text{T} \mathbf{A} )^{-1}
+  \mathbf{A}^\text{T} =
+  \mathbf{L}_\text{inv}
+\end{equation*}
+
+\begin{equation*}
+  \mathbf{L}_\text{inv} \mathbf{A} = \mathbf{I}
+\end{equation*}
+
+Only tall matrices have a left inverse; that is, only matrices with more rows than columns have a left inverse.
+****** Right inverse
+The right inverse of A is:
+
+\begin{equation*}
+  \mathbf{A}^\text{T}
+  ( \mathbf{AA}^\text{T} )^{-1} =
+  \mathbf{R}_\text{inv}
+\end{equation*}
+
+\begin{equation*}
+  \mathbf{R}_\text{inv}
+  \mathbf{A} =
+  \mathbf{I}
+\end{equation*}
+
+Only wide matrices have a right inverse; that is, only matrices with more columns than rows have a right inverse.
 *** Complex numbers
 Complex numbers have a real and an imaginary component. They are written 1+2i or 3-4j.
 
@@ -443,7 +607,7 @@ The null-space is a property of matrix A, it is the subspace of vectors that A w
 
 Solutions for v in Av = 0 are the "right null-space", because v is to the right. There is also a "left null-space", a subspace of solutions for vA = 0.
 
-In Ax = y, y is in the column space. However, x in not in the column space because it has a different dimension (length) than the columns.
+In Ax = y, y is in the column space. However, x is not in the column space because it has a different dimension (length) than the columns.
 
 \begin{equation*}
 C(\mathbf{A}) \cup
@@ -590,3 +754,4 @@ This indicates that there are infinite many solutions. The first line is the onl
 <2023-05-25> Finished Chapter 3
 <2023-05-31> Finished Chapter 6
 <2023-06-08> Finished Chapter 9
+<2023-06-11> Finished Chapter 12
