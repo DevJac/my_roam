@@ -33,6 +33,10 @@ Added vectors must have the same dimensionality.
 
 Commutative: $$ \vec{a} + \vec{b} = \vec{b} + \vec{a} $$
 
+***** Subtraction
+Similar to addition, except negate the vector being subtracted.
+
+If we have x - y, the result can be interpreted as a vector going from the tip of y to the tip of x (except located at the origin).
 ***** Multiplication
 ****** Scaling
 Element-wise multiplication / scaling.
@@ -77,6 +81,10 @@ Thus:
 cos(angle_between(a, b)) = dot(a, b) / (norm(a) * norm(b))
 ******* Neat application: weighted sum
 The dot product is a multiplication followed by a sum. This pattern can be used to calculate a weighted sum by taking the dot product of the data and the weights. If the weights sum to 1, then the result will be a weighted average.
+******* Projection times length interpretation
+If we have "a dot b" or $$ \text{a}^\text{T}\text{b} $$:
+
+It is equivalent to the length of b projected onto a times the length of a. Or vice-versa.
 ****** Outer product
 The dot product (aka, inner product) and outer product are just special cases of matrix multiplication.
 
@@ -135,8 +143,22 @@ A sparse matrix consists of mostly zeros.
 The opposite is a "dense" matrix, which consists of mostly non-zero values (also called a "full matrix").
 
 In computation, a sparse matrix is often represented by listing the values of non-zero elements, rather than storing every element (most of which would be zero).
-***** Orthogonal
-All columns are orthogonal with every other column (their dot product is 0, 90 degree angles between them), and every column vector is length 1.
+***** Orthogonal / orthonormal
+Matrix Q is orthogonal if $$ \mathbf{Q}^\text{T}\mathbf{Q} = \mathbf{I} $$, that is, the transpose of an orthogonal matrix is its inverse.
+
+If Q is square and orthogonal, then:
+
+\begin{equation*}
+  \mathbf{Q}^\text{T}\mathbf{Q} =
+  \mathbf{QQ}^\text{T} =
+  \mathbf{Q}^{-1}\mathbf{Q} =
+  \mathbf{QQ}^{-1} =
+  \mathbf{I}
+\end{equation*}
+
+In an orthogonal matrix:
+1. all columns are orthogonal with every other column (their dot product is 0, 90 degree angles between them), and
+2. every column vector is length 1.
 ***** Toeplitz / Hankel
 In a Toeplitz matrix each row is a "rotation" of the row above.
 
@@ -160,13 +182,13 @@ A Hankel matrix rotates the other way. And may contain zeros in the lower right 
  [c, d, a, b],
  [d, a, b, c]]
 #+end_src
-**** AtA (A transpose A)
+**** AtA / covariance matrix
 AtA, that is, A transposed with itself has many interesting properties:
 
 - It is a square matrix, even if A is rectangular.
 - It is symmetric, even if A isn't.
-- It is full rank if A is full column-rank.
-- It is invertible if A is full column-rank.
+- It is full-rank if A is full-column-rank.
+- It is invertible if A is full-column-rank.
 - It has the same row space as A.
 - It has orthogonal eigenvectors.
 - It is positive and (semi)definite.
@@ -476,6 +498,45 @@ The right inverse of A is:
 \end{equation*}
 
 Only wide matrices have a right inverse; that is, only matrices with more columns than rows have a right inverse.
+**** QR decomposition
+A matrix can be decomposed such that A = QR, where Q is a orthogonal matrix and R is the residual (the left-over computation required to get back to A).
+
+Q can be found using Gram-Schmidt orthogonalization. If Q is not full-rank, often more vectors are added until it is full-rank. The rank of Q may exceed the rank of A, but R will have the same rank as A.
+
+Remember that if Q is orthogonal, then its transpose is also its inverse, thus it's trivial to solve for R in A = QR:
+
+\begin{align*}
+  \mathbf{A} &= \mathbf{QR}
+\\
+  \mathbf{QR} &= \mathbf{A}
+\\
+  \mathbf{Q}^\text{T}\mathbf{QR} &=
+  \mathbf{Q}^\text{T}\mathbf{A}
+\\
+  \mathbf{R} &=
+  \mathbf{Q}^\text{T}\mathbf{A}
+\end{align*}
+
+***** Gram-Schmidt orthogonalization
+The basic idea is that for each vector, we must subtract off the component in the direction of each previous vector. Here is the process for a set of vectors {v1, v2, ..., vn}:
+
+    Set u1 = v1.
+    Set u2 = v2 - proj_u1(v2).
+    For each additional vector vk (k > 2), set uk = vk - proj_u1(vk) - proj_u2(vk) - ... - proj_uk-1(vk).
+
+Where proj_u(v) represents the projection of vector v onto the direction of vector u, defined as:
+
+proj_u(v) = ((v⋅u) / (u⋅u)) * u
+
+This procedure will give you a set of vectors {u1, u2, ..., un} which span the same space as {v1, v2, ..., vn}, but are orthogonal to each other.
+
+Then normalize each vector uk to create the orthonormal set {q1, q2, ..., qn}.
+
+Note: This algorithm assumes that the input vectors {v1, v2, ..., vn} are linearly independent. If they are not, the Gram-Schmidt process needs to be adjusted to handle that case.
+
+The Gram-Schmidt algorithm is numerically unstable and care must be taken when implementing it on a computer. QR decomposition is probably already implemented in a better way.
+***** Using QR to make inverses more numerically stable
+Because the inverse of Q is so trivial (just a transpose), sometimes it's worthwhile to store, "ship around", and worth with QR rather than A. We still have to calculate the inverse of R, but R is a triangular matrix which is easier to work with.
 *** Complex numbers
 Complex numbers have a real and an imaginary component. They are written 1+2i or 3-4j.
 
@@ -628,7 +689,7 @@ dim(C(A)) + dim(N(A')) = M
 dim(R(A)) + dim(N(A)) = N
 
 And remember: rank(A) = dim(C(A)) = dim(R(A))
-*** Orthogonal vectors / subspaces
+*** Orthogonal vectors / subspaces / matrices
 **** Orthogonal vectors
 Two vectors are orthogonal if they meet at a 90 degree angle.
 **** Orthogonal subspaces
@@ -639,6 +700,22 @@ The notation is:
 $$ \textbf{A} \perp \textbf{B} $$
 
 The two subspaces must share the same ambient space, because the length of vectors in both spaces must be equal.
+**** Orthogonal matrices / orthonormal
+Matrix Q is orthogonal if $$ \mathbf{Q}^\text{T}\mathbf{Q} = \mathbf{I} $$, that is, the transpose of an orthogonal matrix is its inverse.
+
+If Q is square and orthogonal, then:
+
+\begin{equation*}
+  \mathbf{Q}^\text{T}\mathbf{Q} =
+  \mathbf{QQ}^\text{T} =
+  \mathbf{Q}^{-1}\mathbf{Q} =
+  \mathbf{QQ}^{-1} =
+  \mathbf{I}
+\end{equation*}
+
+In an orthogonal matrix:
+1. all columns are orthogonal with every other column (their dot product is 0, 90 degree angles between them), and
+2. every column vector is length 1.
 *** Ax = b and Ay = 0
 These two equations are simple yet profound. It is no understatement to say that:
 
@@ -748,6 +825,116 @@ This indicates that x = 2 and y = 3.
 \end{equation*}
 
 This indicates that there are infinite many solutions. The first line is the only meaningful equations: x = 2y + 4.
+*** Projections
+**** Projections to a line / vector
+proj_a(b) is the projection of vector b onto vector a. The result is a vector that is co-linear with a, and is the closest point on a to b.
+
+\begin{equation*}
+  proj_\text{a}(\text{b}) =
+  \frac
+  { \text{a}^\text{T}\text{b} }
+  { \text{a}^\text{T}\text{a} }
+  \text{a}
+\end{equation*}
+
+Remember that $$ \text{a}^\text{T}\text{b} $$ is the dot product of a and b.
+***** Derivation
+We are trying to find a point on line a that is closest to point b. The point closest to b can be represented by scaling a; we will scale a by x, and thus will call the point on a that is closet to b xa.
+
+We know that the vector from xa to b will be orthogonal to a.
+
+We now know enough to solve for x. Encode what we know as an equation and solve for x:
+
+\begin{align*}
+  \text{a}^\text{T}(\text{b} - \text{xa}) &= 0
+\\
+  \text{a}^\text{T}\text{b} -
+  \text{a}^\text{T}(\text{xa}) &= 0
+\\
+  \text{a}^\text{T}\text{b} -
+  \text{xa}^\text{T}\text{a} &= 0
+\\
+  \text{xa}^\text{T}\text{a} &=
+  \text{a}^\text{T}\text{b}
+\\
+  \text{x} &=
+  \frac
+  {\text{a}^\text{T}\text{b}}
+  {\text{a}^\text{T}\text{a}}
+\end{align*}
+
+Remember, in the last equation above, both sides evaluate to scalars.
+
+Also remember that x is only the scaling factor of a; x is not the closest point to b, xa is the closest point to b. To reach our final equation, multiply both sides by a:
+
+\begin{equation*}
+  \text{xa} =
+  \frac
+  {\text{a}^\text{T}\text{b}}
+  {\text{a}^\text{T}\text{a}}
+  \text{a}
+\end{equation*}
+
+xa is the closest point to b.
+**** Decomposing a vector into parallel and orthogonal components
+Let's decompose vector b into two vectors, one that is parallel to a, and on that is orthogonal to a.
+
+The parallel component we will call $$ \text{b}_{\,||\text{a}} $$.
+
+The orthogonal component we will call $$ \text{b}_{\perp\text{a}} $$.
+
+\begin{align*}
+  \text{b} &=
+  \text{b}_{\,||\text{a}} +
+  \text{b}_{\perp\text{a}}
+\\
+  \text{b}_{\,||\text{a}} &=
+  proj_{\text{a}}(\text{b})
+\\
+  \text{b}_{\perp\text{a}} &=
+  \text{b} -
+  \text{b}_{\,||\text{a}}
+\end{align*}
+
+**** Projections to a plane / subspace
+Problem: What is the closest point in a subspace to a given point in the ambient space?
+
+We have:
+- A subspace spanned by the columns of matrix A, the column space of A, C(A).
+- A point b in the ambient space, which may or may not be in the subspace.
+
+What point in C(A) is closest to b? Let's call this point x. How do we find x?
+
+We know that a vector from x to b must be orthogonal to C(A). Remember that the dot product of two orthogonal vectors is 0. Thus, the dot product of the vectors to b and x must be 0. We now have an equation, and x is the only unknown.
+
+Remember that $$ \mathbf{A}^\text{T}\mathbf{B} $$ is the dot product of A and B.
+
+Remember that $$ (\text{b} - \mathbf{A}\text{x} ) $$ is a vector from Ax to b (but without location, or located at the origin). We will find x to be the closest point to b, the components of x will be a linear combination of the columns in A which serve as the basis for the subspace.
+
+Write what we know as an equation and solve for x:
+
+\begin{align*}
+  \mathbf{A}^\text{T} (\text{b} -
+  \mathbf{A}\text{x} ) &= 0
+\\
+  \mathbf{A}^\text{T}\text{b} -
+  \mathbf{A}^\text{T}\mathbf{A}\text{x} &= 0
+\\
+  \mathbf{A}^\text{T}\mathbf{A}\text{x} &=
+  \mathbf{A}^\text{T}\text{b}
+  && \text{This is similar to \mathbf{A}x = b}
+\\
+  (\mathbf{A}^\text{T}\mathbf{A})^{-1}
+  \mathbf{A}^\text{T}\mathbf{A}\text{x} &=
+  (\mathbf{A}^\text{T}\mathbf{A})^{-1}
+  \mathbf{A}^\text{T}\text{b}
+\\
+  \text{x} &=
+  (\mathbf{A}^\text{T}\mathbf{A})^{-1}
+  \mathbf{A}^\text{T}\text{b}
+\end{align*}
+
+Compare to proj_a(b). Notice that proj_a(b) has AtA in the denominator; we cannot perform matrix division, but we can apply the inverse of AtA, which is what we've done here.
 * Books
 ** Linear Algebra: Theory Intuition Code by Mike X Cohen
 *** Reading Log
