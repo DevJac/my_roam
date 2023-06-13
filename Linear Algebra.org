@@ -37,6 +37,8 @@ Commutative: $$ \vec{a} + \vec{b} = \vec{b} + \vec{a} $$
 Similar to addition, except negate the vector being subtracted.
 
 If we have x - y, the result can be interpreted as a vector going from the tip of y to the tip of x (except located at the origin).
+
+An easy way to remember this is to think of scalar subtraction as 1-dimensional vectors. If we have 2 - 1, the result is positive, because 2 is more positive than 1, so the result points in the positive direction. The result points in the direction of the first operand.
 ***** Multiplication
 ****** Scaling
 Element-wise multiplication / scaling.
@@ -935,6 +937,47 @@ Write what we know as an equation and solve for x:
 \end{align*}
 
 Compare to proj_a(b). Notice that proj_a(b) has AtA in the denominator; we cannot perform matrix division, but we can apply the inverse of AtA, which is what we've done here.
+*** Least-squares / normal equation
+Remember, one of the fundamental problems of linear algebra is solving Ax = b for x.
+
+If b is not in the column space of A, then we can find the closest point in C(A) by solving:
+
+\begin{align*}
+  \mathbf{A}\text{x}
+  &=
+  \text{b}
+\\
+  \mathbf{A}^\text{T}\mathbf{A}\text{x}
+  &=
+  \mathbf{A}^\text{T}\text{b}
+\\
+  (\mathbf{A}^\text{T}\mathbf{A})^{-1}
+  \mathbf{A}^\text{T}\mathbf{A}\text{x}
+  &=
+  (\mathbf{A}^\text{T}\mathbf{A})^{-1}
+  \mathbf{A}^\text{T}\text{b}
+\\
+  \text{x}
+  &=
+  (\mathbf{A}^\text{T}\mathbf{A})^{-1}
+  \mathbf{A}^\text{T}\text{b}
+\end{align*}
+
+This is using the left-inverse to solve for x.
+
+This is equivalent to:
+- Finding the point in C(A) nearest to b
+- Projecting b onto C(A)
+- Performing row reduction on an augmented matrix [ AtA | Atb ], the result will be [ I | x ]
+- Finding the x that minimizes Ax - y (using calculus or other optimization techniques)
+
+\begin{equation*}
+  \mathbf{A}^\text{T}\mathbf{A}\text{x}
+  &=
+  \mathbf{A}^\text{T}\text{b}
+\end{equation*}
+
+The above equation is called the "normal equation".
 * Books
 ** Linear Algebra: Theory Intuition Code by Mike X Cohen
 *** Reading Log
