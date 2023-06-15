@@ -342,7 +342,9 @@ Things to know about determinants:
 1. Only square matrices have a determinant
 2. The determinant is a single scalar value
 3. Each matrix has only one determinant
-4. The determinant is zero for rank-deficient / singular matrices, thus any linear dependencies between rows or columns will result in a 0 determinant
+4. The determinant is zero for rank-deficient / singular matrices, thus any linear dependencies between rows or columns will result in a 0 determinant. In other words, a determinant of 0 means the matrix "crushes" the space.
+5. The determinant is the product of the eigenvalues
+6. The determinant is the amount of scaling the matrix performs on areas / volumes in the space
 
 Notation:
 
@@ -978,6 +980,144 @@ This is equivalent to:
 \end{equation*}
 
 The above equation is called the "normal equation".
+*** Eigendecomposition
+"Eigendecomposition is the process of revealing the matrix's deepest secrets."
+
+Eigendecomposition is defined only for square matrices; it gives us eigenvalues (which are scalars) and eigenvectors.
+
+Each M x M matrix has a set of M eigenvalues and M associated eigenvectors.
+
+$$ \mathbf{A}\text{v}
+  = \lambda\text{v}
+  = \text{v}\lambda $$
+
+Given Av = λv, v is the eigenvector and λ is the eigenvalue.
+
+This means that any matrix of any size has the effect of scaling certain vectors. It's remarkable that, even if you have a 1000 x 1000 matrix, its effect on certain vectors is nothing more than scaling, nothing more than the effect of a single scalar.
+
+There are M eigenvalues and eigenvectors, if we arrange them in a matrix we get:
+
+$$ \mathbf{AV} = \mathbf{V\Lambda} $$
+
+where $$\mathbf{V}$$ contains the eigenvectors as columns, and $$\Lambda$$ (an upper-case lambda) is a diagonal matrix of eigenvalues. Putting the eigenvectors into a matrix give them an ordering, but remember that we choose the ordering, and any ordering of the eigenvectors is valid (as long as they remain associated with their corresponding eigenvalue).
+**** Finding eigenvalues
+We can rework the equation for eigen-things into a solvable form.
+
+\begin{align*}
+  \mathbf{A}\text{v}
+  &=
+  \lambda\text{v}
+\\
+  \mathbf{A}\text{v}
+  &=
+  \lambda\mathbf{I}\text{v}
+\\
+  \mathbf{A}\text{v} -
+  \lambda\mathbf{I}\text{v}
+  &=
+  0
+\\
+  (
+    \mathbf{A} -
+    \lambda\mathbf{I}
+  )
+  \text{v}
+  &=
+  0
+\end{align*}
+
+v is a non-zero vector which must be "crunched" to zero. A matrix that "crunches" v will have a determinant of zero. Now we have an equation involving the determinant we can solve.
+
+\begin{equation*}
+  |
+    \mathbf{A} -
+    \lambda\mathbf{I}
+  |
+  =
+  0
+\end{equation*}
+
+As usual, determinant calculations are difficult to do by hand. The algebra works out such that we will have a Mth degree polynomial to solve, which will have M solutions.
+**** Finding eigenvectors
+When finding the eigenvalue, we eliminated vector v from the equation, because we knew that the matrix that multiplied v must have a determinant of zero (otherwise, it couldn't crunch v to zero).
+
+Now that we know λ, we can put v back and solve for v.
+
+\begin{equation*}
+  (
+    \mathbf{A} -
+    \lambda\mathbf{I}
+  )
+  \text{v}
+  &=
+  0
+\end{equation*}
+
+v is in the nullspace of (A - λI), the above equation is essentially the definition of nullspace. There are infinite values of v that make this equation true, an infinite number of vectors in the nullspace. Pick one, that is an eigenvector.
+
+To make things easy to work with, we often pick eigenvectors with a unit length of 1.
+**** The matrix diagonal / diagonalization
+Λ is the diagonal of matrix A, it is a diagonal matrix of A's eigenvalues. The relationship between A and Λ is given by these equations:
+
+\begin{align*}
+  \mathbf{AV}
+  &=
+  \mathbf{V\Lambda}
+\\
+  \mathbf{A}
+  &=
+  \mathbf{V\Lambda V}^{-1}
+\\
+  \mathbf{V}^{-1}\mathbf{AV}
+  &=
+  \mathbf{\Lambda}
+\end{align*}
+
+V is used as a change of basis in the latter two equations.
+
+It is sometimes easier to perform calculations on the diagonal of a matrix, and then transform it back into A. If we have a function F, then sometimes:
+
+$$ \text{F}(\mathbf{A})\ \mathbf{V} = \mathbf{V}\ \text{F}(\mathbf{\Lambda}) $$
+
+Some matrices are not diagonalizable. They will have zero eigenvalues.
+**** Repeated eigenvalues
+Distinct eigenvalues always have distinct eigenvectors, but what about repeated eigenvalues?
+
+Repeated eigenvalues have associated eigenspaces which *may* have more dimensions than one, but not necessarily. It's possible for repeated eigenvalues to have corresponding eigenvectors that are all within a 1-dimensional line, thus being no "better" than a distinct eigenvalue and its pair.
+
+When an eigenvalue is repeated, the number of times it is repeated is the /algebraic multiplicity/ of that eigenvalue. The /geometric multiplicity/ of an eigenvalue is the dimension of the associate eigenspace, which is equivalent to the nullspace of (A - λI).
+
+The geometric multiplicity is less-than-or-equal-to the algebraic multiplicity. The geometric multiplicity cannot be zero, since if an eigenvalue exist, the associated eigenvector(s) must span at least one dimension.
+
+For a matrix to be diagonalizable, the geometric multiplicity must equal the algebraic multiplicity, for all eigenvalues.
+**** Complex eigen-things
+Real-valued matrices can have complex eigenvalues and eigenvectors, both will come in conjugate pairs.
+**** Eigendecomposition of symmetric matrices
+Symmetric matrices are nice to work with when doing eigendecomposition:
+1. Symmetric matrices have orthogonal eigenvectors.
+2. The eigen-things will be real valued.
+**** Zero valued eigenvalues
+If a matrix has a zero-valued eigenvalue, then it is singular / rank-deficient.
+
+The number of zero-valued eigenvalue does not mean much, only whether or not there is one.
+
+The determinant is a product of all eigenvalues, and thus a single zero-valued eigenvalue results in a zero determinant, a rank-deficient matrix.
+
+Also, if we have Av = λv, and we know one of the eigenvalues is zero, then λ = 0, and we have Av = 0. We know that there is a solution for v, and thus A has a nullspace, and thus A is rank-deficient.
+
+Also, if there is a v that solves Av = 0, then the matrix has a nullspace and is rank-deficient. In such a case there must be a eigenvalue of 0, because Av = λv = 0 when λ = 0.
+**** Eigenlayers
+The equation
+
+$$ \mathbf{A} = \mathbf{V \Lambda V}^{-1} $$
+
+can be interpreted as docomposing A into a seires of eigenlayers. Each eigenvalue has an associated layer, and the sum of all layers equals A.
+
+To see this, remember the outer product interpretation of matrix multiplication.
+
+Each layer is column i from V, times eigenvalue i, outer product row i.
+
+Sum all these layers and you will have A.
 * Books
 ** Linear Algebra: Theory Intuition Code by Mike X Cohen
 *** Reading Log
