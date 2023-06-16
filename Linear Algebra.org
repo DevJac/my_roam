@@ -212,7 +212,7 @@ Matrix multipliation is not commutative: A times B does not equal B times A.
 An A x B matrix multipled by a C x D matrix results in a A x D matrix, and B and C must be equal.
 ****** 4 perspectives on matrix multiplication
 [[./images/Linear Algebra/matrix_multiplication_perspectives.png]]
-******* Element perspective (dot product focused)
+******* Element perspective (all possible dot / inner products)
 (row count × row length) × (column length × column count)
 
 In AB, every element is the dot product of the corresponding row of A and column of B.
@@ -220,19 +220,19 @@ In AB, every element is the dot product of the corresponding row of A and column
 The rows in A are the same length as the columns in B and thus have dot products.
 
 [[./images/Linear Algebra/matrix_multiplication.png]]
-******* Layer perspective (outer product focused)
+******* Layer perspective (sum of outer product layers)
 (column length × column count) × (row count × row length)
 
 AB is the sum of every outer product between the corresponding columns in A and rows in B.
 
 The column count in A is the same as the row count in B, thus the columns and rows pair up exactly for the outer product operation. The outer product does not require vectors to be the same length.
-******* Column perspective
+******* Column perspective (weighted sums / linear combinations)
 (column length × column count) × (column length × column count)
 
 In AB, every column is a weighted sum of the columns in A; the weights come from the columns in B.
 
 The weight count in the columns of B must match the column count in A.
-******* Row perspective
+******* Row perspective (weighted sums / linear combinations)
 (row count × row length) × (row count × row length)
 
 In AB, every row is a weighted sum of the rows in B; the weights come from the rows in A.
@@ -1120,10 +1120,13 @@ To see this, remember the outer product interpretation of matrix multiplication.
 Each layer is column i from V, times eigenvalue i, outer product row i.
 
 Sum all these layers and you will have A.
-* Books
-** Linear Algebra: Theory Intuition Code by Mike X Cohen
+* Book
+** Linear Algebra: Theory, Intuition, Code by Mike X Cohen
 *** Reading Log
 <2023-05-25> Finished Chapter 3
 <2023-05-31> Finished Chapter 6
 <2023-06-08> Finished Chapter 9
 <2023-06-11> Finished Chapter 12
+<2023-06-15> Finished Chapter 15
+
+<2023-06-16> I reached the chapter on SVD then stalled. I have a hard time seeing this being useful to me in the near future. Perhaps I will pick it up again later. A new edition of Linear Algebra Done Right comes out this year and I might try that book.
