@@ -213,29 +213,31 @@ An A x B matrix multipled by a C x D matrix results in a A x D matrix, and B and
 ****** 4 perspectives on matrix multiplication
 [[./images/Linear Algebra/matrix_multiplication_perspectives.png]]
 ******* Element perspective (dot product focused)
-If we have AB = C, every element of C is the dot product of the corresponding row of A and column of B. In other words, the resulting matrix contains every possible dot product between rows of A and columns of B.
+(row count × row length) × (column length × column count)
 
-If we have A x B times B x C, then we know the result will be A x C. A represents rows, C represents columns, we know this because of their position in the matrix shape notation. Knowing this, we know that the row count of the result comes from the first matrix and the column count comes from the second.
+In AB, every element is the dot product of the corresponding row of A and column of B.
+
+The rows in A are the same length as the columns in B and thus have dot products.
 
 [[./images/Linear Algebra/matrix_multiplication.png]]
 ******* Layer perspective (outer product focused)
-If we have AB = C, then C is the sum of every outer product of the corresponding columns in A and rows in B.
+(column length × column count) × (row count × row length)
 
-The number of columns in A equals the number of rows in B, so they can be paired. The outer product of a single one of these pairs is a "layer", and has the same shape as C (the matrix multiplication result). If we sum all the layers, we get C.
+AB is the sum of every outer product between the corresponding columns in A and rows in B.
 
-Thus, matrix multiplication is the sum of many outer products.
-
-This is similar to the dot product focus above, but is instead focused on the outer product.
+The column count in A is the same as the row count in B, thus the columns and rows pair up exactly for the outer product operation. The outer product does not require vectors to be the same length.
 ******* Column perspective
-If we have AB = C, then every column in C is a weighted sum of the columns in A, and the weights come from the columns of B.
+(column length × column count) × (column length × column count)
 
-Remember that the inner dimensions of the matrix multiplication must match: (rows x columns) x (rows x columns). We know that the column count of A matches the row count of B. The row count is the number of items in each column. So we know that the column count of the first matrix matches the column length of the second matrix.
+In AB, every column is a weighted sum of the columns in A; the weights come from the columns in B.
 
-The matrix sizes can be thought of as: (column length x column count) x (column length x column count). Necessarily, the column containing the "weights" must have a length equal to the number of columns we are taking a weighted sum of.
+The weight count in the columns of B must match the column count in A.
 ******* Row perspective
-If we have AB = C, then every row in C is a weighted sum of the rows in B, and the weights come from the rows in A.
+(row count × row length) × (row count × row length)
 
-The matrix sizes can be thought of as: (row count x row length) x (row count x row length). Necessarily, the row containing the "weights" must have a length equal to the number of rows we are taking a weighted sum of.
+In AB, every row is a weighted sum of the rows in B; the weights come from the rows in A.
+
+The weight count in the rows of A must match the row count in B.
 ***** Matrix division
 Matrix division doesn't exist. The closest thing is a matrix inverse.
 ***** Frobenius dot product
