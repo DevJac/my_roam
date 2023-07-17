@@ -1,0 +1,51 @@
+:PROPERTIES:
+:ID:       e7da0025-a124-41fc-a18d-1fce1f21d59f
+:END:
+#+title: WGPU
+* WGPU
+** Concepts
+*** Window
+A ~Window~ is not provided by WGPU, but by other crates.
+
+Interoperability is provided through the ~raw-window-handle~ crate, which WGPU supports.
+*** Instance
+~Instance~ is the first thing you create when using WGPU.
+
+~Instance~ is used to create ~Adapters~ and ~Surfaces~.
+
+Does not have to be kept alive.
+*** Adapter
+Represents the physical device.
+
+Can be used to create a ~Device~ and ~Queue~.
+
+Does not have to be kept alive.
+*** Device / Queue
+A /connection/ to a ~Device~, and its command ~Queue~.
+*** Surface
+A canvas you can render to.
+
+Created by ~Instance~ and requires a ~Window~.
+
+Must be configured before presentation using ~Surface.configure~.
+** Concept Threads
+*** Adapter
+1. Instance
+2. Adapter
+3. Device / Queue
+4. CommandEncoder
+5. RenderPass
+*** Surface
+1. Window
+2. Instance
+3. Surface
+   Instance.create_surface(Window)
+   Surface.configure(SurfaceConfiguration)
+4. SurfaceTexture
+5. Texture
+6. TextureView
+* Resources
+** YouTube tutorial series by Dr. Xu
+https://www.youtube.com/playlist?list=PL_UrKDEhALdJS0VrLPn7dqC5A4W1vCAUT
+** Learn Wgpu
+https://sotrh.github.io/learn-wgpu/
