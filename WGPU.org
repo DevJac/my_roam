@@ -28,14 +28,58 @@ A canvas you can render to.
 Created by ~Instance~ and requires a ~Window~.
 
 Must be configured before presentation using ~Surface.configure~.
+**** SurfaceTexture
+May be ~presented~ to update the ~Window~ ~Surface~.
+
+~SurfaceTexture::present~ should be called after ~Queue::submit~.
+*** Texture
+A GPU managed data structure.
+
+You can get the ~Texture~ of a ~Surface~ with ~Surface::get_current_texture~.
+
+You can create a ~Texture~ with ~Device::create_texture~.
+**** TextureView
+A reference to a ~Texture~. Requires by ~RenderPipeline~ or ~BindGroup~.
+*** CommandEncoder
+Records ~RenderPasses~, ~ComputePasses~, and transfer operations between driver-managed resources like ~Buffers~ and ~Textures~.
+
+When finished, call ~CommandEncoder::finish~, this finalizes the ~CommandEncoder~ as a ~CommandBuffer~.
+
+Has many methods.
+**** CommandBuffer
+Created by ~CommandEncoder::finish~.
+
+Can only be ~submitted~ to a ~Queue~, and has no significant methods.
+*** RenderPass
+**** RenderPassDescriptor
+***** Concepts
+****** Color
+****** Depth
+****** Stencil
+***** Fields
+****** label: Option<str>
+****** color_attachments: [Option<RenderPassColorAttachment>]
+******* view: TextureView
+******* resolve_target: Option<TextureView>
+******* ops: Operations<Color>
+******** store: bool
+******** load: LoadOp<Color>
+********* Clear<Color>
+********* Load
+****** depth_stencil_attachment: [Option<RenderPassDepthStencilAttachment>]
+******* view: TextureView
+******* depth_ops: Option<Operations<f32>>
+******** store: bool
+******** load: LoadOp<f32>
+********* Clear<f32>
+********* Load
+******* stencil_ops: Option<Operations<u32>>
+******** store: bool
+******** load: LoadOp<u32>
+********* Clear<u32>
+********* Load
 ** Concept Threads
-*** Adapter
-1. Instance
-2. Adapter
-3. Device / Queue
-4. CommandEncoder
-5. RenderPass
-*** Surface
+*** SurfaceTexture
 1. Window
 2. Instance
 3. Surface
@@ -44,8 +88,20 @@ Must be configured before presentation using ~Surface.configure~.
 4. SurfaceTexture
 5. Texture
 6. TextureView
+*** RenderPass
+1. Instance
+2. Adapter
+3. Device / Queue
+4. CommandEncoder
+5. RenderPass
+   Render to TextureView
+6. CommandBuffer
+   Submit CommandBuffer to Queue
+   Present SurfaceTexture
 * Resources
 ** YouTube tutorial series by Dr. Xu
 https://www.youtube.com/playlist?list=PL_UrKDEhALdJS0VrLPn7dqC5A4W1vCAUT
 ** Learn Wgpu
 https://sotrh.github.io/learn-wgpu/
+*** Progress
+<2023-07-19> Finished "The Surface" tutorial
