@@ -78,6 +78,20 @@ Can only be ~submitted~ to a ~Queue~, and has no significant methods.
 ******** load: LoadOp<u32>
 ********* Clear<u32>
 ********* Load
+*** ShaderModule
+A compiled shader. Created from the ~Driver~ using either source code or a SPIR-V binary.
+*** TODO RenderPipeline
+**** TODO RenderPipelineDescriptor
+***** label
+***** layout
+***** vertex
+***** fragment
+***** primitive
+***** depth_stencil
+***** multisample
+***** multiview
+*** TODO PipelineLayout
+*** TODO BindGroup
 ** Concept Threads
 *** SurfaceTexture
 1. Window
@@ -98,12 +112,45 @@ Can only be ~submitted~ to a ~Queue~, and has no significant methods.
 6. CommandBuffer
    Submit CommandBuffer to Queue
    Present SurfaceTexture
+*** RenderPipeline
+1. Instance
+2. Adapter
+3. Device / Queue
+4. ShaderModule
+5. RenderPipeline
+6. RenderPass
+   RenderPass.set_pipeline(RenderPipeline)
+* WebGPU
+** Coordinate Systems
+https://gpuweb.github.io/gpuweb/#coordinate-systems
+
+The following will refer to x, y, z, and w of the vec4 (x, y, z, w).
+*** Clip space coordinates
+-w <= x, y <= +w
+0 <= z <= +w
+**** Normalized device coordinates
+-1 <= x, y <= +1
+0 <= z <= +1
+
+Dividing clip space coordinates by w gives normalized device coordinates.
+*** Framebuffer coordinates
+Has 2 dimensions (x, y), each unit represents 1 pixel from the top-left.
+* Shaders
+** Types
+*** Vertex
+*** Fragment
+*** Compute
 * Resources
-** YouTube tutorial series by Dr. Xu
-https://www.youtube.com/playlist?list=PL_UrKDEhALdJS0VrLPn7dqC5A4W1vCAUT
 ** Learn Wgpu
 https://sotrh.github.io/learn-wgpu/
 *** Progress
 <2023-07-19> Finished "The Surface" tutorial
+<2023-07-23> Finished "The Pipeline" tutorial; need to review RenderPipelineDescriptor again later
 ** WebGPU — All of the cores, none of the canvas
 https://surma.dev/things/webgpu/
+** WebGPU Standard
+https://www.w3.org/TR/webgpu/
+** WGSL Standard
+https://www.w3.org/TR/WGSL/
+** YouTube tutorial series by Dr. Xu
+https://www.youtube.com/playlist?list=PL_UrKDEhALdJS0VrLPn7dqC5A4W1vCAUT
