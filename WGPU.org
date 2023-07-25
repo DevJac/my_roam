@@ -2,6 +2,52 @@
 :ID:       e7da0025-a124-41fc-a18d-1fce1f21d59f
 :END:
 #+title: WGPU
+* WGPU Spec Notes
+** Concepts
+*** Adapter
+The physical GPU hardware.
+*** Device / Queue
+A /connection/ to the Adapter, and the Queue which executes commands.
+*** Buffer / Texture
+Resources stored in GPU memory.
+*** CommandBuffer / RenderBundle
+Contain user-recorded commands.
+**** CommandEncoder
+CommandEncoder is created from a Device.
+
+CommandEncoder may create a Pass, and a Pass may have a Pipeline. There are RenderPass, RenderPipeline, ComputePass, and ComputePipeline.
+
+CommandEncoder may be finalized into a CommandBuffer and subbmited to a Queue for execution.
+
+Most configuration happens in a Pipeline, the rest comes from Passes or other special functions.
+*** ShaderModule
+Contains shader code.
+*** Sample / BindGroup
+Configure the way Buffers and Textures are used by the GPU.
+** Coordinate systems
+*** Pixel independent
+These coordinate systems has no notion of a pixel.
+**** Normalized device coordinates
+(x, y, z)
+
+Coordinates contained in a normal unit-cube.
+**** Clip space coordinates
+(x, y, z, w)
+
+Coordinates contained within a scaled unit-cube; the scaling factor is w.
+*** Pixel dependent
+**** Framebuffer coordinates / window coordinates / present coordinates
+(x, y)
+
+Coordinates correspond to pixels. (0, 0) is top-left.
+**** Viewport coordinates / fragment coordinates
+(x, y, z)
+
+Like framebuffer coordinates, but with depth z: 0 <= z <= 1.
+*** UV coordinates
+(u, v)
+
+Texture coordinates: 0 <= u <= 1, 0 <= v <= 1
 * WGPU
 ** Concepts
 *** Window
@@ -150,6 +196,9 @@ https://sotrh.github.io/learn-wgpu/
 https://surma.dev/things/webgpu/
 ** WebGPU Standard
 https://www.w3.org/TR/webgpu/
+*** Progress
+<2023-07-23> Read sections 1 and 2, Introduction, and Malicious use considerations
+<2023-07-24> Read through section 3.5. Reading everything is not useful.
 ** WGSL Standard
 https://www.w3.org/TR/WGSL/
 ** YouTube tutorial series by Dr. Xu
