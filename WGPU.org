@@ -138,6 +138,12 @@ A compiled shader. Created from the ~Driver~ using either source code or a SPIR-
 ***** multiview
 *** TODO PipelineLayout
 *** TODO BindGroup
+*** Buffer
+A blob of data stored on the GPU.
+**** Vertex buffer
+An array of vertices, their position and other related data.
+**** Index buffer
+A type of buffer that refers to another buffer by indices.
 ** Concept Threads
 *** SurfaceTexture
 1. Window
@@ -166,6 +172,75 @@ A compiled shader. Created from the ~Driver~ using either source code or a SPIR-
 5. RenderPipeline
 6. RenderPass
    RenderPass.set_pipeline(RenderPipeline)
+*** Buffer
+1. Instance
+2. Adapter
+3. Device / Queue
+4. Buffer
+   Use Buffers with:
+   - RenderPass.set_vertex_buffer
+   - RenderPass.set_index_buffer
+   - RenderPass.draw
+   - RenderPass.draw_indexed
+** Simplified API
+*** Instance
+**** new (InstanceDescriptor)
+Describe which backends must be supported (Vulkan, Metal, etc.)
+**** enumerate_adapters
+**** request_adapter (RequestAdapterOptions)
+Describe power preferences, force software rendering, and ensure surface compatibility.
+**** create_surface (unsafe)
+**** poll_all
+*** Adapter
+**** request_device (DeviceDescriptor)
+Describe desired limits and features.
+**** is_surface_supported
+**** features
+**** limits
+**** get_info
+**** get_presentation_timestamp
+Used for syncing CPU and GPU timestamps.
+*** Device
+**** poll
+**** features
+**** limits
+**** create_shader_module (ShaderModuleDescriptor, no default)
+Describe shader source.
+**** create_command_encoder (CommandEncoderDescriptor)
+Describe a label, that's it, just a label.
+**** create_bind_group
+**** create_pipeline_layout
+**** create_render_pipeline
+**** create_compute_pipeline
+**** create_buffer
+**** create_texture
+**** create_sampler
+**** create_query_set
+**** Error handling
+***** on_uncaptured_error
+***** push_error_scope / pop_error_scope
+***** start_capture / stop_capture
+*** Queue
+**** write_buffer
+**** write_texture
+**** submit
+**** get_timestamp_period
+**** on_submitted_work_done
+*** CommandEncoder
+**** finish
+**** begin_render_pass
+**** begin_compute_pass
+**** Buffer and texture copy / clear
+***** copy_buffer_to_buffer
+***** copy_buffer_to_texture
+***** copy_texture_to_buffer
+***** copy_texture_to_texture
+***** clear_texture
+***** clear_buffer
+*** CommandBuffer
+No methods. Submit using ~Queue::submit~.
+*** RenderPass
+*** RenderPipeline
 * WebGPU
 ** Coordinate Systems
 https://gpuweb.github.io/gpuweb/#coordinate-systems
