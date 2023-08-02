@@ -191,26 +191,28 @@ Describe which backends must be supported (Vulkan, Metal, etc.)
 Describe power preferences, force software rendering, and ensure surface compatibility.
 **** create_surface (unsafe)
 **** poll_all
+**** generate_report
 *** Adapter
 **** request_device (DeviceDescriptor)
 Describe desired limits and features.
 **** is_surface_supported
-**** features
-**** limits
-**** get_info
+**** get_info / features / limits / get_downlevel_capabilities
 **** get_presentation_timestamp
 Used for syncing CPU and GPU timestamps.
 *** Device
 **** poll
-**** features
-**** limits
+**** features / limits
 **** create_shader_module (ShaderModuleDescriptor, no default)
 Describe shader source.
 **** create_command_encoder (CommandEncoderDescriptor)
 Describe a label, that's it, just a label.
 **** create_bind_group
-**** create_pipeline_layout
-**** create_render_pipeline
+**** create_pipeline_layout (PipelineLayoutDescriptor)
+Describe the pipeline layout, consisting of bind group layouts, and push constant ranges (another type of layout). Both are lists of layouts.
+**** create_render_pipeline (RenderPipelineDescriptor, no default)
+Describe:
+- the pipeline layout
+- vertex shaders, fragment shaders, and their associated layouts
 **** create_compute_pipeline
 **** create_buffer
 **** create_texture
@@ -221,8 +223,7 @@ Describe a label, that's it, just a label.
 ***** push_error_scope / pop_error_scope
 ***** start_capture / stop_capture
 *** Queue
-**** write_buffer
-**** write_texture
+**** write_buffer / write_texture
 **** submit
 **** get_timestamp_period
 **** on_submitted_work_done
@@ -266,7 +267,12 @@ Has 2 dimensions (x, y), each unit represents 1 pixel from the top-left.
 https://sotrh.github.io/learn-wgpu/
 *** Progress
 <2023-07-19> Finished "The Surface" tutorial
-<2023-07-23> Finished "The Pipeline" tutorial; need to review RenderPipelineDescriptor again later
+
+<2023-07-23> Finished "The Pipeline" tutorial
+I need to review RenderPipelineDescriptor again later.
+
+<2023-08-02> Finished "Textures and bind groups" tutorial
+I'm losing interest in the tutorial and want to learn on my own from my own experiments.
 ** WebGPU — All of the cores, none of the canvas
 https://surma.dev/things/webgpu/
 ** WebGPU Standard
