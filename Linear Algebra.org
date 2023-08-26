@@ -592,6 +592,8 @@ A Hermitian dot product is (z^H)w instead of (z^T)w.
 
 A Hermitian matrix satisfies the equation A = A^H.
 ** Concepts
+*** "Linear combination"
+It's called a /linear combination/ because it's a sum, a /combination/, of many terms, each of which has been scaled in a /linear/ fashion.
 *** Vector space / linear space
 A vector space is any set of objects for which addition and scalar multiplication are defined and follow these rules:
 
@@ -1120,6 +1122,69 @@ To see this, remember the outer product interpretation of matrix multiplication.
 Each layer is column i from V, times eigenvalue i, outer product row i.
 
 Sum all these layers and you will have A.
+*** Singular Value Decomposition (SVD)
+Singular value decomposition is similar to eigendecomposition. Eigendecomposition can be interpreted as SVD applied to a square matrix.
+
+$$ \mathbf{A} = \mathbf{U \Sigma V}^\text{T} $$
+
+$\mathbf{A}$ (M x N, its shape is M x N) is the matrix to be decomposed, it can be square or rectangular.
+
+$\mathbf{U}$ (M x M) is the /left singular vectors matrix/. It provides an orthonormal basis for $\mathbb{R}^M$, which includes the column space and left null space.
+
+$\mathbf{\Sigma}$ (M x N) is the /singular values matrix/. It is a diagonal matrix and all values are real and non-negative (possibly zero).
+
+$\mathbf{V}$ (N x N) is the /right singular vectors matrix/. It provides an orthonormal basis for the row space and null space. The term in the equation is $\mathbf{V}^\text{T}$, thus plain old $\mathbf{V}$ contains the singular vectors in its /columns/.
+**** Relation to the 4 matrix spaces
+[[./images/Linear Algebra/svd_4_spaces.png]]
+**** Finding the SVD
+To solve the SVD, replace A with AtA:
+
+\begin{align*}
+  \mathbf{A} &=
+  \mathbf{U \Sigma V}^\text{T}
+  \\
+  \mathbf{A}^\text{T}\mathbf{A} &=
+  (\mathbf{U \Sigma V}^\text{T})^\text{T}
+  (\mathbf{U \Sigma V}^\text{T})
+  \\
+  \mathbf{A}^\text{T}\mathbf{A} &=
+  (\mathbf{V \Sigma^\text{T} U^\text{T}})
+  (\mathbf{U \Sigma V}^\text{T})
+  \\
+  \mathbf{A}^\text{T}\mathbf{A} &=
+  \mathbf{V \Sigma^\text{T} U^\text{T}}
+  \mathbf{U \Sigma V}^\text{T}
+  \\
+  \mathbf{A}^\text{T}\mathbf{A} &=
+  \mathbf{V \Sigma^\text{T}}
+  \mathbf{\Sigma V}^\text{T}
+  \\
+  \mathbf{A}^\text{T}\mathbf{A} &=
+  \mathbf{V \Sigma^2 V^\text{T}}
+  \\
+  (\mathbf{A}^\text{T}\mathbf{A})
+  \mathbf{V}
+  &=
+  \mathbf{V \Sigma^2}
+\end{align*}
+
+Remember V and U are orthonormal, so their transverse is also their inverse. This is how we eliminated UtU.
+
+The final equation is very similar to eigenvalues, and we know how to solve those.
+**** SVD layers and their importance
+Remember the "layer" interpretation of matrix multiplication, that matrix multiplication is a sum of many outer-product layers. Given AB this interpretation is that AB is formed by summing many outer-products between the columns of A and the rows of B.
+
+The columns of A and rows of B are often arbitrary and we don't know the relative importance of the various layers.
+
+SVD give us similar layers, and additionally their relative importance.
+
+Given A = UEV. E is a sorted diagonal matrix (by convention). Set E aside and we have A = UV. By the outer-product interpretation, the columns of U form outer-product layers with the rows of V, and then are scaled by terms of E. All together they form A.
+
+This gives us many layers of A. The first SVD layer contains the most prominent patterns of A, and so on by decreasing significance.
+
+Each layer is rank-1, because each layer is the result of a single outer-product. The SVD allows us to create low-rank approximations of A.
+
+This is useful in noise reduction, data compression, feature selection, data analysis, etc.
 * Book
 ** Linear Algebra: Theory, Intuition, Code by Mike X Cohen
 *** Reading Log
