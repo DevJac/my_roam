@@ -1195,3 +1195,5 @@ This is useful in noise reduction, data compression, feature selection, data ana
 <2023-06-15> Finished Chapter 15
 
 <2023-06-16> I reached the chapter on SVD then stalled. I have a hard time seeing this being useful to me in the near future. Perhaps I will pick it up again later. A new edition of Linear Algebra Done Right comes out this year and I might try that book.
+
+<2023-09-01> I finished chapter 16 about SVD. SVD is quite beutiful, it seems everything I've learned so far in the book has been necessary to understand SVD. I haven't solved many problems by hand, which might be useful. There's only two chapters left in the book, but I don't know if I will finish them.
