@@ -203,21 +203,21 @@ include = safe_move_shift.txt
 show_more = false
 dump_message_count = 1000
 
+autofight_stop = 70
+hp_warning = 40
+hp_colour = 70:yellow, 40:red
+force_more_message += LOW HITPOINT WARNING
+
 explore_stop = items,altars,portals,branches,runed_doors,greedy_pickup_smart
 
 autopickup = $?!+"/(}
-autopickup_exceptions ^= <tin of tremorstones
-autopickup_exceptions ^= <spellbook
 
 force_more_message += enough gold
 force_more_message += Your .+ skill .+ level
 force_more_message += raining target .+ reached
 
-force_more_message += cacodemon
-force_more_message += neqoxec
-force_more_message += orb of fire
-force_more_message += shining eye
-
 force_more_message += You hear the .+ of .*(distant|nearby)
 force_more_message += The walls and floor vibrate strangely for a moment
+
+force_more_message += orrodes you
 #+end_src
