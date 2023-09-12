@@ -1,0 +1,47 @@
+:PROPERTIES:
+:ID:       B8355B75-4635-448F-8FD1-5C123926F521
+:END:
+#+title: Rust
+* Rust
+** Basics
+*** Values
+A value is bits and a type. You must know the type to know how to interpret the bits.
+
+A value must be stored in a place. A value's meaning is independent of where it is stored.
+**** Places we can store values
+***** Stack / variable
+A variable is a named memory location on the stack.
+***** Heap / pointer
+A pointer's value is a heap address that holds another value.
+***** Static memory
+Static memory contains the compiled binary code and static values (declared with the static keyword).
+
+The static lifetime does not necessarily mean something is stored in static memory. The static lifetime means a value will live as long as static memory is around, that is, until the end of the program.
+*** Ownership
+/Values/ are owned. The owner is responsible for deallocating the value. This usually happens automatically when the owner goes out of scope, unless you manually drop the value earlier.
+**** Taking ownership of a mutable reference
+You can take ownership of a mutable reference, but you must put a valid value back in its place.
+
+Use the following functions to do this:
+- ~std::mem::replace~
+- ~std::mem::take~
+- ~std::mem::swap~
+**** Interior mutability
+Some types provide interior mutability, meaning they allow you to mutate a value through a shared reference.
+***** Types that produce mutable references from shared references
+- ~RefCell~
+- ~Mutex~
+***** Types that have methods to mutate in place through a shared reference
+- ~Cell~
+- Atomic integer types in ~std::sync::atomic~
+** Special Traits
+*** Copy
+The Copy trait changes how moving ownership works. Copy values do not move; their ownership does not move.
+** Unsafe
+Unsafe functions inform the caller they must maintain certain invariants. A caller who marks a portion of their code as unsafe is promising to maintain those invariants. Unsafe is used for invariants that cannot be maintained by the compiler.
+
+Unsafe code allows you to dereference raw pointers, and call unsafe functions, that's it.
+* Resources
+** Rust for Rustaceans by Jon Gjengset
+*** Progress
+<2023-08-15> Read chapter 1
