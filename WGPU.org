@@ -49,6 +49,8 @@ Like framebuffer coordinates, but with depth z: 0 <= z <= 1.
 
 Texture coordinates: 0 <= u <= 1, 0 <= v <= 1
 * WGPU
+** Map
+[[./images/WGPU/WGPU.png]]
 ** Concepts
 *** Window
 A ~Window~ is not provided by WGPU, but by other crates.
@@ -194,19 +196,21 @@ Describe power preferences, force software rendering, and ensure surface compati
 **** generate_report
 *** Adapter
 **** request_device (DeviceDescriptor)
-Describe desired limits and features.
+Describe desired features and limits.
 **** is_surface_supported
 **** get_info / features / limits / get_downlevel_capabilities
 **** get_presentation_timestamp
-Used for syncing CPU and GPU timestamps.
-*** Device
+Returns a GPU timestamp, which is different than a CPU timestamp.
+*** TODO Device
 **** poll
 **** features / limits
 **** create_shader_module (ShaderModuleDescriptor, no default)
 Describe shader source.
 **** create_command_encoder (CommandEncoderDescriptor)
 Describe a label, that's it, just a label.
+**** create_render_bundle_encoder
 **** create_bind_group
+**** create_bind_group_layout
 **** create_pipeline_layout (PipelineLayoutDescriptor)
 Describe the pipeline layout, consisting of bind group layouts, and push constant ranges (another type of layout). Both are lists of layouts.
 **** create_render_pipeline (RenderPipelineDescriptor, no default)
@@ -227,36 +231,141 @@ Describe:
 **** submit
 **** get_timestamp_period
 **** on_submitted_work_done
-*** CommandEncoder
+*** TODO CommandEncoder
 **** finish
-**** begin_render_pass
-**** begin_compute_pass
-**** Buffer and texture copy / clear
-***** copy_buffer_to_buffer
-***** copy_buffer_to_texture
-***** copy_texture_to_buffer
-***** copy_texture_to_texture
-***** clear_texture
-***** clear_buffer
+**** begin_render_pass / begin_compute_pass
+**** Buffer / Texture operations
+***** copy_buffer_to_buffer / copy_buffer_to_texture / copy_texture_to_buffer / copy_texture_to_texture
+***** clear_buffer / clear_texture
+**** Profiling
+***** write_timestamp
+***** resolve_query_set
+**** Error handling
+***** insert_debug_marker
+***** push_debug_group / pop_debug_group
 *** CommandBuffer
 No methods. Submit using ~Queue::submit~.
 *** RenderPass
-*** RenderPipeline
-* WebGPU
-** Coordinate Systems
-https://gpuweb.github.io/gpuweb/#coordinate-systems
-
-The following will refer to x, y, z, and w of the vec4 (x, y, z, w).
-*** Clip space coordinates
--w <= x, y <= +w
-0 <= z <= +w
-**** Normalized device coordinates
--1 <= x, y <= +1
-0 <= z <= +1
-
-Dividing clip space coordinates by w gives normalized device coordinates.
-*** Framebuffer coordinates
-Has 2 dimensions (x, y), each unit represents 1 pixel from the top-left.
+**** set_...
+***** set_bind_group
+***** set_pipeline
+***** set_blend_constant
+***** set_index_buffer
+***** set_vertex_buffer
+***** set_scissor_rect
+***** set_viewport
+***** set_stencil_reference
+***** set_push_constants
+**** draw_...
+***** draw
+***** draw_indexed
+***** draw_indirect
+***** draw_indexed_indirect
+**** multi_draw_...
+***** multi_draw_indirect
+***** multi_draw_indexed_indirect
+***** multi_draw_indirect_count
+***** multi_draw_indexed_indirect_count
+**** execute_bundles
+**** Debugging / profiling
+***** insert_debug_marker
+***** push_debug_group / pop_debug_group
+***** begin_pipeline_statistics_query / end_pipeline_statistics_query
+***** write_timestamp
+*** ComputePass
+**** set_...
+***** set_bind_group
+***** set_pipeline
+***** set_push_constant
+**** dispatch_workgroups
+**** dispatch_workgroups_indirect
+**** Debugging / profiling
+***** insert_debug_market
+***** push_debug_group / pop_debug_group
+***** begin_pipeline_statistics_query / end_pipeline_statistics_query
+***** write_timestamp
+*** TODO RenderPipeline
+** Threads
+*** Main
+- Instance
+- Adapter
+- Device / Queue
+- CommandEncoder
+- Pass
+- Pipeline
+*** ShaderModule
+**** Created by
+Device
+**** Requires
+ShaderSource
+**** Required by
+Pipeline
+*** TODO CommandEncoder / CommandBuffer
+**** Created by
+Device
+**** Requires
+Nothing
+**** Required by
+Queue
+*** TODO RenderBundleEncoder
+**** Created by
+Device
+**** Requires
+Values
+**** Required by
+*** TODO BindGroup
+**** Created by
+Device
+**** Requires
+BindGroupLayout
+**** Required by
+*** BindGroupLayout
+**** Created by
+Device
+**** Requires
+Values
+**** Required by
+- BindGroup
+- PipelineLayout
+*** TODO PipelineLayout
+**** Created by
+Device
+**** Requires
+BindGroupLayout
+**** Required by
+RenderPipeline
+ComputePipeline
+*** Pipeline
+**** Created by
+Device
+**** Requires
+- ShaderModule
+- PipelineLayout
+**** Required by
+Pass
+*** TODO Pass
+**** Created by
+CommandEncoder
+**** Requires
+- BindGroup
+- Pipeline
+**** Required by
+*** TODO Buffer
+**** Created by
+**** Requires
+**** Required by
+*** TODO Texture
+**** Created by
+**** Requires
+**** Required by
+*** TODO Sampler
+**** Created by
+**** Requires
+**** Required by
+*** TODO QuerySet
+**** Created by
+**** Requires
+**** Required by
 * Shaders
 ** Types
 *** Vertex

@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       eef77515-74e2-4db4-8a98-d34092267345
+:END:
+#+title: Linear Range Mapping
+* Linear Range Mapping
+If we have a range from A to B, and we want to map that range onto another range, C to D, in a linear fashion we can use the following formula:
+
+y = ((x - A) / (B - A)) * (D - C) + C
+
+Remember that B - A can be viewed as a vector from A to B.
+
+The ((x - A) / (B - A)) term gives us the proportion that x is through the range A to B. We then multiply that proportion by the range C to D, and move the result to the appropriate place with + C.
