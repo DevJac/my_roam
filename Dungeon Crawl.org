@@ -166,7 +166,8 @@ SH is improved by Block Skill and Dexterity.
 - Quarterstaff
 - Lajatang
 **** Special
-- Magic Staffs
+***** Magic Staves
+~(evoc * 2 + magic skill) / 30~ chance to add about ~evoc / 2 + magic skill~ elemental damage.
 * Hit Damage
 The number of exclamation marks indicate the damage done:
 
@@ -197,6 +198,29 @@ Middle of ranges:
 |           7 |            800 |
 |           8 |           1600 |
 |           9 |           3200 |
+* Cards
+** Destruction (6 cards)
+*** Degeneration (polymorph area)
+Attempts to polymorph visible monsters to lower HD
+*** The Orb
+Casts one Orb of Destruction or more
+*** Pain (necromancy spell)
+Casts one of:
+- Agony - Monsters self-damage when attacking
+- Bolt of Draining - Damages and drains target
+- Torment - Halves monster HP
+*** The Storm (blow monsters away)
+Blows monsters away and deals lightning damage
+*** Wild Magic (miscast damage)
+Monsters suffer miscast damage / effects
+*** Vitriol (acid)
+Deals acid damage to target, and possibly all monsters
+** Escape (5 cards)
+Roughly:
+- Creates clouds or walls nearby
+- Regen buff
+- Speed-related buff
+- Banish random monster
 * Config
 #+begin_src
 include = safe_move_shift.txt
@@ -205,8 +229,14 @@ dump_message_count = 1000
 
 autofight_stop = 70
 hp_warning = 40
+note_hp_percent = 40
 hp_colour = 70:yellow, 40:red
 force_more_message += LOW HITPOINT WARNING
+
+dump_order  = header,hiscore,stats,misc,inventory,
+dump_order += skills,spells,overview,mutations,messages,screenshot,
+dump_order += monlist,kills,notes,screenshots,skill_gains,action_counts
+dump_order += turns_by_place, kills_by_place
 
 explore_stop = items,altars,portals,branches,runed_doors,greedy_pickup_smart
 
@@ -220,4 +250,26 @@ force_more_message += You hear the .+ of .*(distant|nearby)
 force_more_message += The walls and floor vibrate strangely for a moment
 
 force_more_message += orrodes you
+force_more_message += ou feel yourself slow down
+
+tile_tag_pref = tutorial
+#+end_src
+* Save Scum Scripts
+** s.sh
+#+begin_src
+#!/usr/bin/env bash
+
+git add .
+if [ -z "$1" ]; then
+  git commit --allow-empty-message -m ''
+else
+  git commit -m "$1"
+fi
+#+end_src
+** scum.sh
+#+begin_src
+#!/usr/bin/env bash
+
+git restore .
+git clean -xdf
 #+end_src
