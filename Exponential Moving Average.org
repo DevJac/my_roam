@@ -12,12 +12,12 @@ where alpha is a number close to 1 which indicates how stable the average should
 * Real-Time Component
 To add a real-time element to this average, calculate alpha as follows:
 
-alpha = 1 - e^(-t / tau)
+alpha = e^(-t / tau)
 
 where t is the real time that has passed (e.g., number of days since last weighing yourself). tau should be adjusted to control how quickly alpha decays, which correspondingly represents how quickly all previous values in the average decay (or rather, how quickly their /weights/ in the average decay).
 
 Or, to work with half-lives, which might be more intuitive:
 
-alpha = 1 - 2^(-t / half_life)
+alpha = 2^(-t / half_life)
 
 where half_life is the number of time units (be they seconds or days) it takes for the weight of all previous values in the average to decay by half.
