@@ -207,9 +207,9 @@ Scalar-matrix multiplication is simple element-wise multiplication.
 
 Matrix-scalar multiplication is commutative: n * A = A * n
 ***** Matrix multiplication
-Matrix multipliation is not commutative: A times B does not equal B times A.
+Matrix multiplication is not commutative: A times B does not equal B times A.
 
-An A x B matrix multipled by a C x D matrix results in a A x D matrix, and B and C must be equal.
+An A x B matrix multiplied by a C x D matrix results in a A x D matrix, and B and C must be equal.
 ****** 4 perspectives on matrix multiplication
 [[./images/Linear Algebra/matrix_multiplication_perspectives.png]]
 ******* Element perspective (all possible dot / inner products)

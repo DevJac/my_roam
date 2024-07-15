@@ -41,6 +41,105 @@ The Copy trait changes how moving ownership works. Copy values do not move; thei
 Unsafe functions inform the caller they must maintain certain invariants. A caller who marks a portion of their code as unsafe is promising to maintain those invariants. Unsafe is used for invariants that cannot be maintained by the compiler.
 
 Unsafe code allows you to dereference raw pointers, and call unsafe functions, that's it.
+* Code Examples
+** EventBus
+*** Code
+#+begin_src rust
+use std::any::{Any, TypeId};
+use std::collections::HashMap;
+
+trait HandleAny {
+    fn handle_any(&mut self, event: &dyn Any);
+}
+
+trait Handler<E>: HandleAny {
+    fn handle(&mut self, event: &E);
+}
+
+struct EventBus {
+    event_handlers: HashMap<TypeId, Vec<Box<dyn HandleAny>>>,
+}
+
+impl EventBus {
+    fn new() -> Self {
+        Self {
+            event_handlers: HashMap::new(),
+        }
+    }
+
+    fn add_handler<E: 'static, H: Handler<E> + 'static>(&mut self, handler: H) {
+        let type_id = TypeId::of::<E>();
+        match self.event_handlers.get_mut(&type_id) {
+            None => {
+                self.event_handlers.insert(type_id, vec![Box::new(handler)]);
+            }
+            Some(handlers) => {
+                handlers.push(Box::new(handler));
+            }
+        }
+    }
+
+    fn dispatch<E: 'static>(&mut self, event: E) {
+        let handlers = self.event_handlers.get_mut(&TypeId::of::<E>()).unwrap();
+        for handler in handlers {
+            handler.handle_any(&event);
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////
+// Library code above.
+// Library code should be independant of the following user code.
+///////////////////////////////////////////////////////////////////
+
+enum Fruit {
+    Apple,
+    Orange,
+}
+
+struct FruitThrownEvent(Fruit);
+
+struct FruitThrownCounter {
+    apples_thrown: u32,
+    total_thrown: u32,
+}
+
+impl HandleAny for FruitThrownCounter {
+    fn handle_any(&mut self, event: &dyn Any) {
+        self.handle(event.downcast_ref::<FruitThrownEvent>().unwrap())
+    }
+}
+
+impl Handler<FruitThrownEvent> for FruitThrownCounter {
+    fn handle(&mut self, event: &FruitThrownEvent) {
+        self.total_thrown += 1;
+        if let FruitThrownEvent(Fruit::Apple) = event {
+            self.apples_thrown += 1;
+        }
+        println!(
+            "Apples: {}, Total: {}",
+            self.apples_thrown, self.total_thrown
+        );
+    }
+}
+
+fn main() {
+    let mut event_bus = EventBus::new();
+    event_bus.add_handler::<FruitThrownEvent, _>(FruitThrownCounter {
+        apples_thrown: 0,
+        total_thrown: 0,
+    });
+    event_bus.dispatch(FruitThrownEvent(Fruit::Orange));
+    event_bus.dispatch(FruitThrownEvent(Fruit::Apple));
+    event_bus.dispatch(FruitThrownEvent(Fruit::Orange));
+}
+#+end_src
+*** Link
+https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=943b39f95749b92b52bc72568721020c
+
+or
+
+https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=use+std%3A%3Aany%3A%3A%7BAny%2C+TypeId%7D%3B%0Ause+std%3A%3Acollections%3A%3AHashMap%3B%0A%0Atrait+HandleAny+%7B%0A++++fn+handle_any%28%26mut+self%2C+event%3A+%26dyn+Any%29%3B%0A%7D%0A%0Atrait+Handler%3CE%3E%3A+HandleAny+%7B%0A++++fn+handle%28%26mut+self%2C+event%3A+%26E%29%3B%0A%7D%0A%0Astruct+EventBus+%7B%0A++++event_handlers%3A+HashMap%3CTypeId%2C+Vec%3CBox%3Cdyn+HandleAny%3E%3E%3E%2C%0A%7D%0A%0Aimpl+EventBus+%7B%0A++++fn+new%28%29+-%3E+Self+%7B%0A++++++++Self+%7B%0A++++++++++++event_handlers%3A+HashMap%3A%3Anew%28%29%2C%0A++++++++%7D%0A++++%7D%0A%0A++++fn+add_handler%3CE%3A+%27static%2C+H%3A+Handler%3CE%3E+%2B+%27static%3E%28%26mut+self%2C+handler%3A+H%29+%7B%0A++++++++let+type_id+%3D+TypeId%3A%3Aof%3A%3A%3CE%3E%28%29%3B%0A++++++++match+self.event_handlers.get_mut%28%26type_id%29+%7B%0A++++++++++++None+%3D%3E+%7B%0A++++++++++++++++self.event_handlers.insert%28type_id%2C+vec%21%5BBox%3A%3Anew%28handler%29%5D%29%3B%0A++++++++++++%7D%0A++++++++++++Some%28handlers%29+%3D%3E+%7B%0A++++++++++++++++handlers.push%28Box%3A%3Anew%28handler%29%29%3B%0A++++++++++++%7D%0A++++++++%7D%0A++++%7D%0A%0A++++fn+dispatch%3CE%3A+%27static%3E%28%26mut+self%2C+event%3A+E%29+%7B%0A++++++++let+handlers+%3D+self.event_handlers.get_mut%28%26TypeId%3A%3Aof%3A%3A%3CE%3E%28%29%29.unwrap%28%29%3B%0A++++++++for+handler+in+handlers+%7B%0A++++++++++++handler.handle_any%28%26event%29%3B%0A++++++++%7D%0A++++%7D%0A%7D%0A%0A%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%0A%2F%2F+Library+code+above.%0A%2F%2F+Library+code+should+be+independant+of+the+following+user+code.%0A%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%0A%0Aenum+Fruit+%7B%0A++++Apple%2C%0A++++Orange%2C%0A%7D%0A%0Astruct+FruitThrownEvent%28Fruit%29%3B%0A%0Astruct+FruitThrownCounter+%7B%0A++++apples_thrown%3A+u32%2C%0A++++total_thrown%3A+u32%2C%0A%7D%0A%0Aimpl+HandleAny+for+FruitThrownCounter+%7B%0A++++fn+handle_any%28%26mut+self%2C+event%3A+%26dyn+Any%29+%7B%0A++++++++self.handle%28event.downcast_ref%3A%3A%3CFruitThrownEvent%3E%28%29.unwrap%28%29%29%0A++++%7D%0A%7D%0A%0Aimpl+Handler%3CFruitThrownEvent%3E+for+FruitThrownCounter+%7B%0A++++fn+handle%28%26mut+self%2C+event%3A+%26FruitThrownEvent%29+%7B%0A++++++++self.total_thrown+%2B%3D+1%3B%0A++++++++if+let+FruitThrownEvent%28Fruit%3A%3AApple%29+%3D+event+%7B%0A++++++++++++self.apples_thrown+%2B%3D+1%3B%0A++++++++%7D%0A++++++++println%21%28%0A++++++++++++%22Apples%3A+%7B%7D%2C+Total%3A+%7B%7D%22%2C%0A++++++++++++self.apples_thrown%2C+self.total_thrown%0A++++++++%29%3B%0A++++%7D%0A%7D%0A%0Afn+main%28%29+%7B%0A++++let+mut+event_bus+%3D+EventBus%3A%3Anew%28%29%3B%0A++++event_bus.add_handler%3A%3A%3CFruitThrownEvent%2C+_%3E%28FruitThrownCounter+%7B%0A++++++++apples_thrown%3A+0%2C%0A++++++++total_thrown%3A+0%2C%0A++++%7D%29%3B%0A++++event_bus.dispatch%28FruitThrownEvent%28Fruit%3A%3AOrange%29%29%3B%0A++++event_bus.dispatch%28FruitThrownEvent%28Fruit%3A%3AApple%29%29%3B%0A++++event_bus.dispatch%28FruitThrownEvent%28Fruit%3A%3AOrange%29%29%3B%0A%7D%0A
 * Resources
 ** Rust for Rustaceans by Jon Gjengset
 *** Progress
