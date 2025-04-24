@@ -366,11 +366,47 @@ CommandEncoder
 **** Created by
 **** Requires
 **** Required by
+** BufferUsages
+A mapped buffer can communicate with the CPU. A buffer can also copy to and from other buffers.
+
+There are 3 types of draw calls:
+- Index
+- Vertex
+- Indirect
+
+There are 2 types of buffers that can be in a bind group:
+- Uniform
+- Storage
+** Resource attributes
+The following attributes are for telling which "slot" a resource is in.
+- binding
+- group
+- location
 * Shaders
 ** Types
 *** Vertex
 *** Fragment
 *** Compute
+* WebGPU Fundamentals
+** WebGPU lets you do 2 things
+- Draw triangles (or lines or points) to textures
+- Run computations on the GPU
+** 3 types of functions
+*** Vertex shaders
+Computes vertices. Returns vertex positions.
+*** Fragment shaders
+Computes colors. Returns a color.
+*** Compute shaders
+Executes a function N times, passing an iteration number to each call.
+** Map
+[[./images/WGPU/webgpu-draw-diagram.svg]]
+
+** Concept Relations
+- A shader is part of a pipeline, which is part of a render pass.
+- Shader resources are accessed through bind groups.
+- Pipeline attributes? What are they?
+- Vertex shader output goes into the fragment shader.
+- The fragment shader writes to a texture through the render pass.
 * Resources
 ** Learn Wgpu
 https://sotrh.github.io/learn-wgpu/
@@ -391,5 +427,12 @@ https://www.w3.org/TR/webgpu/
 <2023-07-24> Read through section 3.5. Reading everything is not useful.
 ** WGSL Standard
 https://www.w3.org/TR/WGSL/
+** WebGPU Explainer
+https://gpuweb.github.io/gpuweb/explainer/
 ** YouTube tutorial series by Dr. Xu
 https://www.youtube.com/playlist?list=PL_UrKDEhALdJS0VrLPn7dqC5A4W1vCAUT
+** toji.dev Blog Posts
+*** Efficient ways to write and read buffers
+https://toji.dev/webgpu-best-practices/buffer-uploads.html
+** WebGPU Fundamentals
+https://webgpufundamentals.org/
