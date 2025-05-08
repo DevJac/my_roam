@@ -1,0 +1,23 @@
+:PROPERTIES:
+:ID:       2116d938-8d88-4752-aa88-b2ac82b4f3a8
+:END:
+#+title: Fedora
+* System Upgrade
+** Upgrading from command line
+See: https://docs.fedoraproject.org/en-US/quick-docs/upgrading-fedora-offline/
+** NVIDIA drivers
+I had trouble with NVIDIA drivers after upgrading to Fedora 42 (Apr 2025).
+
+The important commands to install NVIDIA drivers are:
+
+First, install RPMFusion Nonfree.
+
+Then:
+
+~sudo dnf reinstall akmod-nvidia kmod-nvidia xorg-x11-drv-nvidia-cuda~
+
+and then maybe
+
+~sudo akmods --force --rebuild~
+
+if the first command doesn't work.

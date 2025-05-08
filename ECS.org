@@ -1,0 +1,16 @@
+:PROPERTIES:
+:ID:       c0cba0f0-a7de-4b21-8b5c-73fca1b41211
+:END:
+#+title: ECS
+* Entity Component System (ECS)
+* Resources
+** Autodesk blog
+http://bitsquid.blogspot.com/2014/08/building-data-oriented-entity-system.html
+http://bitsquid.blogspot.com/2014/09/building-data-oriented-entity-system.html
+http://bitsquid.blogspot.com/2014/10/building-data-oriented-entity-system.html
+http://bitsquid.blogspot.com/2014/10/building-data-oriented-entity-system_10.html
+** skypjack on software blog
+https://skypjack.github.io/2019-02-14-ecs-baf-part-1/
+https://skypjack.github.io/2019-03-07-ecs-baf-part-2/
+** flecs discussion
+https://github.com/SanderMertens/flecs/issues/3
