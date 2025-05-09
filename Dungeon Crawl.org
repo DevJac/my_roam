@@ -243,6 +243,19 @@ explore_stop += greedy_pickup_smart,greedy_visited_item_stack
 
 autopickup = $?!+"/(}♦
 
+autoinscribe += scrolls? of identify:@r1
+autoinscribe += scrolls? of blinking:!r
+autoinscribe += scrolls? of teleportation:!r
+autoinscribe += scrolls? of immolation:!r
+autoinscribe += scrolls? of revelation:!r
+autoinscribe += scrolls? of noise:!r
+autoinscribe += scrolls? of fog:!r
+autoinscribe += scrolls? of torment:!r
+autoinscribe += scrolls? of silence:!r
+autoinscribe += scrolls? of fear:!r
+autoinscribe += scrolls? of poison:!r
+autoinscribe += scrolls? of vulnerability:!r
+
 force_more_message += enough gold
 force_more_message += Your .+ skill .+ level
 force_more_message += raining target .+ reached
@@ -250,10 +263,11 @@ force_more_message += raining target .+ reached
 force_more_message += You hear the .+ of .*(distant|nearby)
 force_more_message += The walls and floor vibrate strangely for a moment
 
-force_more_message += orrodes you
+force_more_message += orrodes you .
 force_more_message += ou feel yourself slow down
 force_more_message += ou miscast
 
+always_show_zot = true
 # always_show_gems = true
 # more_gem_info = true
 tile_tag_pref = tutorial
